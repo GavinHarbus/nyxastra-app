@@ -66,6 +66,8 @@ Tag, rate, search, filter, batch export. Every image keeps its full generation m
 
 12 starter templates included. Create your own with variables, multi-choice parameters, and folder organization. Share them as `.nyxtemplate` files.
 
+Browse and download more templates from the **[Template Gallery](templates/)**.
+
 <p align="center">
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
 </p>
@@ -100,6 +102,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## More
 
+- [Template Gallery](templates/) — download community prompt templates
 - [Changelog](CHANGELOG.md) — what's new in each version
 - [FAQ](FAQ.md) — common questions answered
 - [Privacy Policy](PRIVACY.md) — the full details
