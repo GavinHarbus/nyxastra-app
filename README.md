@@ -66,10 +66,14 @@ Drag & drop reference images to guide the AI. Perfect for style transfer, variat
 
 ### Organize everything in the Library
 
-Tag, rate, search, filter, batch export. Every image keeps its full generation metadata embedded in the file.
+Tag, rate, search, filter, batch export. Every image keeps its full generation metadata embedded in the file — prompt, parameters, token usage, model, and timestamp.
 
 <p align="center">
   <img src="assets/screenshots/library.png" width="600" alt="Library view">
+</p>
+
+<p align="center">
+  <img src="assets/screenshots/imagedetails.png" width="600" alt="Image details with metadata and token usage">
 </p>
 
 ### One-click prompt templates
