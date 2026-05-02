@@ -13,6 +13,10 @@
   <a href="https://github.com/gavinvonmandias/nyxastra-app/releases/latest">
     <img src="https://img.shields.io/github/v/release/gavinvonmandias/nyxastra-app?label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
   </a>
+  &nbsp;&nbsp;
+  <a href="templates/">
+    <img src="https://img.shields.io/badge/Template_Gallery-15+_templates-orange?style=for-the-badge" alt="Template Gallery">
+  </a>
 </p>
 
 <p align="center">
@@ -62,15 +66,34 @@ Tag, rate, search, filter, batch export. Every image keeps its full generation m
   <img src="assets/screenshots/library.png" width="600" alt="Library view">
 </p>
 
-### Reusable prompt templates
+### One-click prompt templates
 
-12 starter templates included. Create your own with variables, multi-choice parameters, and folder organization. Share them as `.nyxtemplate` files.
-
-Browse and download more templates from the **[Template Gallery](templates/)**.
+Don't start from a blank prompt. NyxAstra ships with **15 curated templates** covering cinematic portraits, pixel art, watercolor landscapes, product photography, logo design, and more. Each template has **fill-in variables** — just type your subject and hit Generate.
 
 <p align="center">
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
 </p>
+
+**Want more?** Browse the **[Template Gallery](templates/)** for community-contributed templates:
+
+| | | |
+|:---:|:---:|:---:|
+| <img src="templates/previews/电影感人像.jpg" width="200"> | <img src="templates/previews/动漫角色立绘.jpg" width="200"> | <img src="templates/previews/水彩风景.jpg" width="200"> |
+| Cinematic Portrait | Anime Character | Watercolor Landscape |
+| <img src="templates/previews/像素风插画.jpg" width="200"> | <img src="templates/previews/极简_Logo.jpg" width="200"> | <img src="templates/previews/Universal_-_Product_Hero_Shot.jpg" width="200"> |
+| Pixel Art | Minimal Logo | Product Hero Shot |
+
+---
+
+## Contribute your templates
+
+NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welcome to contribute**.
+
+1. **Design** a prompt in NyxAstra with `{{variables}}`
+2. **Export** it — right-click the template, choose *Export*
+3. **Share** it — [open an issue](https://github.com/gavinvonmandias/nyxastra-app/issues/new) with your `.nyxtemplate` file attached, or submit a pull request to the [`templates/`](templates/) folder
+
+Your template will appear in the gallery with a preview image, credited to you. Great templates may be featured in future releases of NyxAstra.
 
 ---
 
@@ -102,7 +125,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## More
 
-- [Template Gallery](templates/) — download community prompt templates
+- [Template Gallery](templates/) — browse and download prompt templates
 - [Changelog](CHANGELOG.md) — what's new in each version
 - [FAQ](FAQ.md) — common questions answered
 - [Privacy Policy](PRIVACY.md) — the full details
