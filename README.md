@@ -84,10 +84,10 @@ Don't start from a blank prompt. NyxAstra ships with **15 curated templates** co
 
 | | | |
 |:---:|:---:|:---:|
-| <img src="templates/previews/电影感人像.jpg" width="200"> | <img src="templates/previews/动漫角色立绘.jpg" width="200"> | <img src="templates/previews/水彩风景.jpg" width="200"> |
-| Cinematic Portrait | Anime Character | Watercolor Landscape |
-| <img src="templates/previews/像素风插画.jpg" width="200"> | <img src="templates/previews/极简_Logo.jpg" width="200"> | <img src="templates/previews/Universal_-_Product_Hero_Shot.jpg" width="200"> |
-| Pixel Art | Minimal Logo | Product Hero Shot |
+| <img src="templates/previews/Universal_-_Event_Poster.jpg" width="200"> | <img src="templates/previews/Universal_-_Infographic.jpg" width="200"> | <img src="templates/previews/Universal_-_Logo_Concept.jpg" width="200"> |
+| Event Poster | Infographic | Logo Concept |
+| <img src="templates/previews/Universal_-_Product_Hero_Shot.jpg" width="200"> | <img src="templates/previews/Universal_-_Social_Media_Post.jpg" width="200"> | <img src="templates/previews/Universal_-_UI_Mockup.jpg" width="200"> |
+| Product Hero Shot | Social Media Post | UI Mockup |
 
 ---
 
