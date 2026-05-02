@@ -48,4 +48,4 @@ Not currently. NyxAstra is a native macOS app built with SwiftUI and requires ma
 
 ## Contact
 
-Have a question not covered here? [Open an issue](https://github.com/gavinvonmandias/nyxastra-app/issues/new/choose) or visit [gavinschneestudio.org](https://gavinschneestudio.org/).
+Have a question not covered here? [Open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new/choose) or visit [gavinschneestudio.org](https://gavinschneestudio.org/).

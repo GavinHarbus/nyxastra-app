@@ -256,7 +256,7 @@ Curated prompt templates for [NyxAstra](../README.md). Browse the previews below
 
 1. In NyxAstra, design a prompt with `{{{{variables}}}}`
 2. Right-click the template → **Export as .nyxtemplate**
-3. [Open an issue](https://github.com/gavinvonmandias/nyxastra-app/issues/new) with your file attached to share it here
+3. [Open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new) with your file attached to share it here
 """
 
     index_path = TEMPLATES_DIR / "README.md"

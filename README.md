@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gavinvonmandias/nyxastra-app/releases">
-    <img src="https://img.shields.io/github/v/release/gavinvonmandias/nyxastra-app?include_prereleases&label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
+  <a href="https://github.com/GavinHarbus/nyxastra-app/releases">
+    <img src="https://img.shields.io/github/v/release/GavinHarbus/nyxastra-app?include_prereleases&label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
   </a>
   &nbsp;&nbsp;
   <a href="templates/">
@@ -23,8 +23,8 @@
   <img src="https://img.shields.io/badge/macOS-14.0%2B-blue?style=flat-square" alt="macOS 14.0+">
   <img src="https://img.shields.io/badge/Price-Free-green?style=flat-square" alt="Free">
   <img src="https://img.shields.io/badge/Telemetry-None-purple?style=flat-square" alt="No Telemetry">
-  <img src="https://img.shields.io/github/downloads/gavinvonmandias/nyxastra-app/total?style=flat-square&label=Downloads" alt="Downloads">
-  <img src="https://img.shields.io/github/stars/gavinvonmandias/nyxastra-app?style=flat-square" alt="Stars">
+  <img src="https://img.shields.io/github/downloads/GavinHarbus/nyxastra-app/total?style=flat-square&label=Downloads" alt="Downloads">
+  <img src="https://img.shields.io/github/stars/GavinHarbus/nyxastra-app?style=flat-square" alt="Stars">
 </p>
 
 ---
@@ -97,7 +97,7 @@ NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welc
 
 1. **Design** a prompt in NyxAstra with `{{variables}}`
 2. **Export** it — right-click the template, choose *Export*
-3. **Share** it — [open an issue](https://github.com/gavinvonmandias/nyxastra-app/issues/new) with your `.nyxtemplate` file attached, or submit a pull request to the [`templates/`](templates/) folder
+3. **Share** it — [open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new) with your `.nyxtemplate` file attached, or submit a pull request to the [`templates/`](templates/) folder
 
 Your template will appear in the gallery with a preview image, credited to you. Great templates may be featured in future releases of NyxAstra.
 
@@ -119,7 +119,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## Getting started
 
-1. **Download** the latest `.dmg` from [Releases](https://github.com/gavinvonmandias/nyxastra-app/releases)
+1. **Download** the latest `.dmg` from [Releases](https://github.com/GavinHarbus/nyxastra-app/releases)
 2. **Drag** NyxAstra to your Applications folder
 3. **Open** NyxAstra and go to Settings
 4. **Paste** your OpenAI or Azure OpenAI API key
@@ -139,7 +139,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## Feedback & Support
 
-Found a bug? Have an idea? [Open an issue](https://github.com/gavinvonmandias/nyxastra-app/issues/new/choose) — every report helps make NyxAstra better.
+Found a bug? Have an idea? [Open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new/choose) — every report helps make NyxAstra better.
 
 ---
 
