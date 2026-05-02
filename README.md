@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gavinvonmandias/nyxastra-app/releases/latest">
-    <img src="https://img.shields.io/github/v/release/gavinvonmandias/nyxastra-app?label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
+  <a href="https://github.com/gavinvonmandias/nyxastra-app/releases">
+    <img src="https://img.shields.io/github/v/release/gavinvonmandias/nyxastra-app?include_prereleases&label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
   </a>
   &nbsp;&nbsp;
   <a href="templates/">
@@ -119,7 +119,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## Getting started
 
-1. **Download** the latest `.dmg` from [Releases](https://github.com/gavinvonmandias/nyxastra-app/releases/latest)
+1. **Download** the latest `.dmg` from [Releases](https://github.com/gavinvonmandias/nyxastra-app/releases)
 2. **Drag** NyxAstra to your Applications folder
 3. **Open** NyxAstra and go to Settings
 4. **Paste** your OpenAI or Azure OpenAI API key
