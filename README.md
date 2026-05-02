@@ -30,6 +30,12 @@
 ---
 
 <p align="center">
+  <video src="assets/demo.mp4" width="720" autoplay loop muted playsinline>
+    <img src="assets/screenshots/generate.png" width="720" alt="NyxAstra Generate view">
+  </video>
+</p>
+
+<p align="center">
   <img src="assets/screenshots/generate.png" width="720" alt="NyxAstra Generate view">
 </p>
 
