@@ -6,24 +6,41 @@ Thanks for sharing! Submitting a community template takes a few minutes.
 
 ## Path A — submit via Pull Request (recommended)
 
-### 1. Design and export your template in NyxAstra
+### 1. Design your template in NyxAstra
 
-- Open NyxAstra, create a new template, design the prompt with
-  `{{variable}}` placeholders.
-- Test it — generate at least one image to confirm the variables and
-  parameter preset work end to end.
-- Use the result you like best as the **cover image** (right-click an
-  image in the Library and choose *Set as template cover*).
-- Right-click the template → **Export as `.nyxtemplate`**.
+Open NyxAstra, create a new template, and design the prompt with
+`{{variable}}` placeholders. Give it a name, pick a folder, add a few
+tags, and (optionally) set a parameter preset (size / quality / format)
+that matches the style.
 
-### 2. Open a Pull Request
+<p align="center">
+  <img src="../assets/screenshots/edittemplate.png" width="720" alt="Editing a template in NyxAstra">
+</p>
+
+Test it — generate at least one image to confirm the variables and
+parameter preset work end to end. Use the result you like best as the
+**cover image** (right-click an image in the Library and choose
+*Set as template cover*).
+
+### 2. Export the `.nyxtemplate` file
+
+Right-click the template → **Export…** and save the `.nyxtemplate` file
+somewhere convenient. The exported file is a single self-contained JSON
+document with the cover image embedded — no missing assets to worry
+about.
+
+<p align="center">
+  <img src="../assets/screenshots/exporttemplate.png" width="720" alt="Exporting a template as .nyxtemplate">
+</p>
+
+### 3. Open a Pull Request
 
 1. Fork this repository.
 2. Drop your `.nyxtemplate` file into [`community/submissions/`](submissions/).
 3. Commit with a message like `Add template: <name>`.
 4. Open a Pull Request.
 
-### 3. Wait for CI to do the boring work
+### 4. Wait for CI to do the boring work
 
 Within a couple of minutes, the **NyxAstra Community CI** workflow will:
 
@@ -35,7 +52,7 @@ Within a couple of minutes, the **NyxAstra Community CI** workflow will:
 3. Delete your original `.nyxtemplate` from `submissions/`.
 4. Push the unpacked files back to your PR branch.
 
-### 4. Fill in the metadata
+### 5. Fill in the metadata
 
 Edit the auto-generated `community/templates/<slug>/meta.yml` and complete:
 
@@ -49,7 +66,7 @@ Edit the auto-generated `community/templates/<slug>/meta.yml` and complete:
 
 Push the edited `meta.yml` to the same PR.
 
-### 5. Review
+### 6. Review
 
 A maintainer will review for content policy, quality, and whether it
 duplicates an existing template. We may suggest small edits or
