@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CODEOWNERS — automatic review request routing for nyxastra-app.
+#
+# Syntax: <pattern>  <owners…>
+# Last-matching rule wins (unlike .gitignore).
+#
+# Owners listed here are auto-tagged as PR reviewers. Combined with the
+# branch-protection rule on `main`, this means every PR touching one of
+# these paths shows up in @GavinHarbus's review queue.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Default: everything else falls back to the repo owner.
+*                                       @GavinHarbus
+
+# CI / governance — must be reviewed by the repo owner.
+/.github/                               @GavinHarbus
+/.github/workflows/                     @GavinHarbus
+/.github/CODEOWNERS                     @GavinHarbus
+
+# Community pipeline (validator, build script, schema). Changes here
+# affect every contributor's submission, so they need owner sign-off.
+/community/scripts/                     @GavinHarbus
+/community/CONTRIBUTING.md              @GavinHarbus
+
+# Community templates — outside contributors PR here. Owner is auto-tagged
+# so submissions get a fast triage signal.
+/community/templates/                   @GavinHarbus
+/community/submissions/                 @GavinHarbus
