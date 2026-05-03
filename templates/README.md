@@ -1,7 +1,7 @@
 # NyxAstra Template Gallery — moved
 
 > **The template gallery has moved.**
-> Browse all templates at **<https://gavinschneestudio.com/nyxastra/templates/>**.
+> Browse all templates at **<https://gavinschneestudio.org/nyxastra/templates/>**.
 
 This directory still holds the original `.nyxtemplate` files for legacy
 download links. **The canonical source is now [`community/templates/`](../community/templates/)**,

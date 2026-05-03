@@ -37,8 +37,8 @@ LEGACY_CATEGORY_MAP: dict = {
     "Universal Briefs": ("universal",    "en"),
 }
 
-STARTER_PACK_AUTHOR_NAME = "NyxAstra Team"
-STARTER_PACK_AUTHOR_URL  = "https://gavinschneestudio.com/products/nyxastra.html"
+STARTER_PACK_AUTHOR_NAME = "Gavin Schnee"
+STARTER_PACK_AUTHOR_URL  = "https://x.com/Alaric4678"
 
 
 def main() -> int:

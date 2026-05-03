@@ -1,7 +1,7 @@
 # NyxAstra Community Templates
 
-> Community-maintained prompt templates for [NyxAstra](https://gavinschneestudio.com/products/nyxastra.html).
-> Browse the gallery at **<https://gavinschneestudio.com/nyxastra/templates/>**.
+> Community-maintained prompt templates for [NyxAstra](https://gavinschneestudio.org/products/nyxastra.html).
+> Browse the gallery at **<https://gavinschneestudio.org/nyxastra/templates/>**.
 
 This directory holds the **source of truth** for every template that ships
 in the public gallery — both the official starter pack and contributions

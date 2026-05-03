@@ -58,7 +58,12 @@ Edit the auto-generated `community/templates/<slug>/meta.yml` and complete:
 
 - `author.name` — how you'd like to be credited (handle, real name,
   or `Anonymous`).
-- `author.url` — *optional* link to your website / GitHub / social.
+- `author.url` — *optional* link to your profile. Must be `https://`
+  on one of these hosts: `github.com`, `x.com` / `twitter.com`,
+  `bsky.app`, `mastodon.social`, `xiaohongshu.com`, `bilibili.com` /
+  `space.bilibili.com`, or `gavinschneestudio.org`. Other hosts are
+  rejected by CI to keep the gallery free of phishing / SEO spam.
+  Need a host added? Open an issue or include the rationale in your PR.
 - `license` — choose one (see [Licenses](#licenses) below).
 - `category` — `photo` / `illustration` / `branding` / `universal` / `other`.
 - `models` — which models this works best with.

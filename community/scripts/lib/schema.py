@@ -17,6 +17,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
+from urllib.parse import urlsplit
 
 # ──────────────────────────────────────────────────────────────────────
 # Constants — must stay in sync with NyxAstra's TemplateExchange.swift.
@@ -314,6 +315,36 @@ META_ALL      = META_REQUIRED | META_OPTIONAL
 
 PLACEHOLDER_AUTHOR_NAME = "FIXME-please-fill-in"
 
+# `author.url` security/quality gate.
+#
+# The gallery renders this URL as a clickable link on the public site,
+# so it must come from a known, trustworthy host. Without this gate a
+# malicious PR could attach a phishing site, an SEO/affiliate spam URL,
+# or a `javascript:` payload to a community template.
+#
+# Allowed schemes: https only (no http, no javascript:, no data:, etc.).
+# Allowed hosts: contributor profile pages on platforms where identity
+# is meaningfully verifiable (GitHub) or socially attributable (X/BSky/
+# Mastodon flagship/Xiaohongshu/Bilibili) plus the studio's own site.
+# To add a host, edit this set and bump it in the same PR — that way
+# new attribution sources go through human review.
+ALLOWED_AUTHOR_URL_HOSTS = frozenset({
+    "github.com",
+    "x.com",
+    "twitter.com",
+    "bsky.app",
+    "mastodon.social",
+    "xiaohongshu.com",
+    "www.xiaohongshu.com",
+    "bilibili.com",
+    "space.bilibili.com",
+    "gavinschneestudio.org",
+})
+
+# Hard cap to keep the link cell tidy and avoid people stuffing tracking
+# parameters / referral chains into it.
+MAX_AUTHOR_URL_LENGTH = 200
+
 
 def validate_meta(meta: Any, *, allow_placeholders: bool = False) -> ValidationResult:
     """Validate a parsed `meta.yml` document.
@@ -376,6 +407,12 @@ def validate_meta(meta: Any, *, allow_placeholders: bool = False) -> ValidationR
                     "author.name",
                 )
 
+            url = author.get("url")
+            if url is not None and not (isinstance(url, str) and not url.strip()):
+                # Treat empty-string the same as absent (skipping the check),
+                # but anything else must pass the host/scheme gate below.
+                _validate_author_url(url, r, allow_placeholders=allow_placeholders)
+
     models = meta.get("models")
     if models is not None:
         if not isinstance(models, list) or not models:
@@ -406,3 +443,54 @@ def validate_meta(meta: Any, *, allow_placeholders: bool = False) -> ValidationR
         r.error("meta-bad-createdAt", "`createdAt` must be an ISO date string (YYYY-MM-DD).", "createdAt")
 
     return r
+
+
+def _validate_author_url(url: Any, r: ValidationResult, *, allow_placeholders: bool) -> None:
+    """Enforce the author.url security/quality gate.
+
+    See `ALLOWED_AUTHOR_URL_HOSTS` for context. We split the rules into
+    distinct error codes so a contributor sees the exact thing to fix.
+    `allow_placeholders` is unused today but kept symmetric with the rest
+    of validate_meta in case we ever want a placeholder URL.
+    """
+    if not isinstance(url, str):
+        r.error("meta-author-url-type", "`author.url` must be a string (or omitted).", "author.url")
+        return
+
+    if len(url) > MAX_AUTHOR_URL_LENGTH:
+        r.error(
+            "meta-author-url-too-long",
+            f"`author.url` is {len(url)} chars; max is {MAX_AUTHOR_URL_LENGTH}. "
+            "Strip tracking parameters and use the canonical profile URL.",
+            "author.url",
+        )
+        return
+
+    try:
+        parts = urlsplit(url)
+    except ValueError:
+        r.error("meta-author-url-malformed", "`author.url` is not a parseable URL.", "author.url")
+        return
+
+    if parts.scheme != "https":
+        r.error(
+            "meta-author-url-scheme",
+            f"`author.url` must use https:// (got scheme {parts.scheme!r}). "
+            "http://, javascript:, data:, and other schemes are rejected.",
+            "author.url",
+        )
+        return
+
+    host = (parts.hostname or "").lower()
+    if not host:
+        r.error("meta-author-url-no-host", "`author.url` has no host component.", "author.url")
+        return
+
+    if host not in ALLOWED_AUTHOR_URL_HOSTS:
+        r.error(
+            "meta-author-url-host",
+            f"`author.url` host {host!r} is not in the allow-list. "
+            f"Allowed: {sorted(ALLOWED_AUTHOR_URL_HOSTS)}. "
+            "If you need a new platform added, open an issue or include the rationale in your PR.",
+            "author.url",
+        )

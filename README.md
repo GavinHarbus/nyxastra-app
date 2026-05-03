@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/github/v/release/GavinHarbus/nyxastra-app?include_prereleases&label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
   </a>
   &nbsp;&nbsp;
-  <a href="https://gavinschneestudio.com/nyxastra/templates/">
+  <a href="https://gavinschneestudio.org/nyxastra/templates/">
     <img src="https://img.shields.io/badge/Template_Gallery-Browse_online-orange?style=for-the-badge" alt="Template Gallery">
   </a>
 </p>
@@ -84,7 +84,7 @@ Don't start from a blank prompt. NyxAstra ships with **15 curated templates** co
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
 </p>
 
-**Browse the full gallery → [gavinschneestudio.com/nyxastra/templates](https://gavinschneestudio.com/nyxastra/templates/)**
+**Browse the full gallery → [gavinschneestudio.org/nyxastra/templates](https://gavinschneestudio.org/nyxastra/templates/)**
 
 The gallery includes both the official starter pack and community-submitted templates. Click *Download* on any card to get the `.nyxtemplate` file, then double-click it to import into NyxAstra.
 
@@ -137,12 +137,12 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## More
 
-- [Template Gallery](https://gavinschneestudio.com/nyxastra/templates/) — browse and download community templates
+- [Template Gallery](https://gavinschneestudio.org/nyxastra/templates/) — browse and download community templates
 - [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
 - [Changelog](CHANGELOG.md) — what's new in each version
 - [FAQ](FAQ.md) — common questions answered
 - [Privacy Policy](PRIVACY.md) — the full details
-- [Product Page](https://gavinschneestudio.com/products/nyxastra.html)
+- [Product Page](https://gavinschneestudio.org/products/nyxastra.html)
 
 ## Feedback & Support
 

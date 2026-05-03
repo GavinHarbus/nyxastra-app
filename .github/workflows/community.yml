@@ -69,7 +69,7 @@ jobs:
         if: steps.intake.outputs.unpacked == 'true'
         run: |
           git config user.name  "nyxastra-community-bot"
-          git config user.email "community-bot@gavinschneestudio.com"
+          git config user.email "community-bot@gavinschneestudio.org"
           git add community/
           if ! git diff --cached --quiet; then
             git commit -m "ci: unpack community submission(s)"
@@ -141,7 +141,7 @@ jobs:
 
       # Publish to the gh-pages branch so https://gavinharbus.github.io/
       # nyxastra-app/ serves index.json + covers/ + templates/. The static
-      # gallery on gavinschneestudio.com fetches from this URL.
+      # gallery on gavinschneestudio.org fetches from this URL.
       #
       # First-time setup (one-off, in repo Settings → Pages):
       #   Source: Deploy from a branch  ·  Branch: gh-pages  ·  Folder: / (root)
@@ -156,5 +156,5 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
           user_name: "nyxastra-community-bot"
-          user_email: "community-bot@gavinschneestudio.com"
+          user_email: "community-bot@gavinschneestudio.org"
           commit_message: "deploy: community/dist (${{ github.sha }})"
