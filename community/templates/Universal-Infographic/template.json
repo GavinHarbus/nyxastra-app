@@ -1,0 +1,86 @@
+{
+  "body": "You are designing an editorial-quality vertical infographic.\n\nCONTENT BRIEF\n- Topic / subject: {{topic}}\n- Main title: {{title}}\n- Number of sections / items to visualize: {{section_count}}\n- Section labels (one per line, optional): {{section_labels}}\n\nDESIGN DIRECTION\n- Layout pattern: {{layout}}\n- Tone: {{tone}}\n- Color palette: {{color_palette}}\n\nDESIGN RULES\n- Aspect: 2:3 vertical (~1024×1536), print-ready\n- Information hierarchy: title > section headers > body labels > supporting details\n- Each section visually distinct yet part of one cohesive system (consistent icons, line weights, type)\n- Use real visual content per section (illustrated icons, mini-diagrams, photographic insets) — never placeholder boxes\n- Generous gutters; the page must breathe; avoid wall-to-wall text\n- Style: museum / encyclopedia / annual-report polish — Information is Beautiful, Edward Tufte, MUJI catalogues\n- All labels must be crisp, correctly spelled, and legible at thumbnail size\n- Avoid: clipart icons, generic stock graphics, AI-style watercolor smears, low-contrast text-on-photo\n\nIf a field is empty or \"—\", infer the most tasteful default for the topic.",
+  "folderName": "Universal Briefs",
+  "name": "Universal · Infographic",
+  "parameterPreset": {
+    "format": "png",
+    "n": 1,
+    "quality": "high",
+    "size": {
+      "height": 1536,
+      "width": 1024
+    }
+  },
+  "schema": "nyxtemplate",
+  "tags": [
+    "universal",
+    "infographic",
+    "explainer",
+    "brief"
+  ],
+  "variables": [
+    {
+      "allowedValues": [],
+      "defaultValue": "How a great cup of coffee is made",
+      "description": "主题",
+      "kind": "text",
+      "name": "topic"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "The Anatomy of a Pour-Over",
+      "description": "信息图主标题",
+      "kind": "text",
+      "name": "title"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "6",
+      "description": "分块/条目数量",
+      "kind": "number",
+      "name": "section_count"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "Bean origin\nRoast level\nGrind size\nWater temperature\nBloom phase\nPour technique",
+      "description": "每行一条章节标题（不填则由模型自动推导）",
+      "kind": "multiline",
+      "name": "section_labels"
+    },
+    {
+      "allowedValues": [
+        "Modular Grid Cards",
+        "Vertical Timeline",
+        "Comparison Table",
+        "Step-by-Step Flow",
+        "Exploded Diagram",
+        "Atlas / Encyclopedia Plate"
+      ],
+      "defaultValue": "Modular Grid Cards",
+      "description": "版式模式",
+      "kind": "enumeration",
+      "name": "layout"
+    },
+    {
+      "allowedValues": [
+        "Editorial Calm",
+        "Scientific Precise",
+        "Playful Friendly",
+        "Heritage Classic",
+        "Modern Tech"
+      ],
+      "defaultValue": "Editorial Calm",
+      "description": "语调",
+      "kind": "enumeration",
+      "name": "tone"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "warm cream, espresso brown, soft terracotta accent",
+      "description": "配色描述",
+      "kind": "text",
+      "name": "color_palette"
+    }
+  ],
+  "version": 1
+}

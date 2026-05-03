@@ -1,0 +1,6 @@
+# Pinned to versions known to ship wheels for macOS 14 + Ubuntu 22 (CI runner).
+# Pillow handles base64 → image decoding, format detection, EXIF stripping,
+# WebP optimization. PyYAML is for meta.yml. No other runtime deps.
+
+Pillow>=10.2,<12
+PyYAML>=6.0,<7

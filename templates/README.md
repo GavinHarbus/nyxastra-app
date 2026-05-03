@@ -1,41 +1,30 @@
-# NyxAstra Template Gallery
+# NyxAstra Template Gallery — moved
 
-Curated prompt templates for [NyxAstra](../README.md). Browse the previews below, download what you like, and double-click to import.
+> **The template gallery has moved.**
+> Browse all templates at **<https://gavinschneestudio.com/nyxastra/templates/>**.
 
-## Categories
+This directory still holds the original `.nyxtemplate` files for legacy
+download links. **The canonical source is now [`community/templates/`](../community/templates/)**,
+where each template lives in its own folder as `template.json + cover + meta.yml`
+for clean PR review and independent cover optimization.
 
-| Category | Templates | Description |
-|----------|:---------:|-------------|
-| [Universal Briefs](Universal%20Briefs/) | 6 | Production-ready templates with detailed creative briefs. |
-| [branding](branding/) | 1 | Logos, icons, and brand assets. |
-| [illustration](illustration/) | 6 | Anime, watercolor, pixel art, posters, ink art, and more. |
-| [photo](photo/) | 2 | Cinematic portraits, product photography, and realistic styles. |
+## What changed?
 
-**15 templates total** — click a category to see previews and download.
+| Before | After |
+|---|---|
+| `templates/<category>/<name>.nyxtemplate` (single file with inline base64 cover, ~1.5 MB each) | `community/templates/<slug>/{template.json, cover.png, meta.yml}` (cover stored as a separate binary) |
+| Add a template by editing this folder | Drop a `.nyxtemplate` into [`community/submissions/`](../community/submissions/) — CI unpacks it for you |
+| Direct download from this folder | CI re-packs every template on every build into `community/dist/templates/<slug>.nyxtemplate`, served from the website |
 
----
-
-## Quick Preview
-
-| | | |
-|:---:|:---:|:---:|
-| ![](previews/Universal_-_Event_Poster.jpg) | ![](previews/Universal_-_Infographic.jpg) | ![](previews/Universal_-_Logo_Concept.jpg) |
-| [Universal · Event Poster](Universal%20Briefs/) | [Universal · Infographic](Universal%20Briefs/) | [Universal · Logo Concept](Universal%20Briefs/) |
-| ![](previews/Universal_-_Product_Hero_Shot.jpg) | ![](previews/Universal_-_Social_Media_Post.jpg) | ![](previews/Universal_-_UI_Mockup.jpg) |
-| [Universal · Product Hero Shot](Universal%20Briefs/) | [Universal · Social Media Post](Universal%20Briefs/) | [Universal · UI Mockup](Universal%20Briefs/) |
-| ![](previews/极简_Logo.jpg) | ![](previews/像素风插画.jpg) | ![](previews/动漫角色立绘.jpg) |
-| [极简 Logo](branding/) | [像素风插画](illustration/) | [动漫角色立绘](illustration/) |
+See [`community/README.md`](../community/README.md) for the full pipeline,
+and [`community/CONTRIBUTING.md`](../community/CONTRIBUTING.md) to submit
+a new template.
 
 ---
 
-## How to use
+## For the curious
 
-1. Click a `.nyxtemplate` file → **Download**
-2. Double-click the file, or drag it into NyxAstra's Templates view
-3. Fill in the variables and generate
-
-## Create & share your own
-
-1. In NyxAstra, design a prompt with `{{variables}}`
-2. Right-click the template → **Export as .nyxtemplate**
-3. [Open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new) with your file attached to share it here
+The previews under [`previews/`](previews/) are still used by the root
+README's gallery grid. Once the website is live, those will be replaced
+by `<img>` tags pointing at the website's CDN, and this directory can
+be removed entirely.

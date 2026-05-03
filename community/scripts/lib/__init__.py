@@ -1,0 +1,1 @@
+"""NyxAstra community-templates pipeline."""

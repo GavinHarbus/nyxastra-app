@@ -1,0 +1,102 @@
+name: Submit a community template
+description: Share a `.nyxtemplate` for the public gallery (no git required).
+title: "[Template] "
+labels: ["area:community", "template-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing a template! A maintainer will review it and
+        open the Pull Request on your behalf. Please attach the
+        `.nyxtemplate` file (drag-and-drop into the textarea below — yes
+        GitHub allows arbitrary file types).
+
+        Prefer to do it yourself? See the
+        [contributing guide](https://github.com/GavinHarbus/nyxastra-app/blob/main/community/CONTRIBUTING.md)
+        for the PR-based path.
+
+  - type: input
+    id: template-name
+    attributes:
+      label: Template title
+      description: As you'd like it to appear in the gallery.
+      placeholder: e.g. "Cinematic Portrait — Studio Lighting"
+    validations:
+      required: true
+
+  - type: textarea
+    id: nyxtemplate-file
+    attributes:
+      label: The `.nyxtemplate` file
+      description: |
+        Drag your `.nyxtemplate` file directly into this box (GitHub will
+        upload it and embed a download link). Or paste a download URL.
+      placeholder: |
+        Drop the file here, or paste a URL to it.
+    validations:
+      required: true
+
+  - type: input
+    id: author-name
+    attributes:
+      label: How would you like to be credited?
+      description: Display name, handle, or "Anonymous".
+      placeholder: e.g. "Jane Doe", "@yourhandle", "Anonymous"
+    validations:
+      required: true
+
+  - type: input
+    id: author-url
+    attributes:
+      label: Website / profile URL (optional)
+      placeholder: https://example.com
+
+  - type: dropdown
+    id: license
+    attributes:
+      label: License
+      description: |
+        How may others use this template? See [CONTRIBUTING.md → Licenses](https://github.com/GavinHarbus/nyxastra-app/blob/main/community/CONTRIBUTING.md#licenses).
+      options:
+        - "CC-BY-4.0 — credit me, anyone may use (recommended)"
+        - "CC0-1.0 — public domain"
+        - "CC-BY-SA-4.0 — share-alike"
+        - "All Rights Reserved — display only"
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - photo
+        - illustration
+        - branding
+        - ui
+        - infographic
+        - poster
+        - social
+        - universal
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything reviewers should know? (optional)
+      placeholder: e.g. "Best with gpt-image-2 quality=high; tested on 2k portraits."
+
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Confirmation
+      options:
+        - label: I generated the cover image with this template myself.
+          required: true
+        - label: I've read the [content policy](https://github.com/GavinHarbus/nyxastra-app/blob/main/community/CONTENT_POLICY.md) and my template complies.
+          required: true
+        - label: The prompt body contains no API keys, passwords, or personal info.
+          required: true

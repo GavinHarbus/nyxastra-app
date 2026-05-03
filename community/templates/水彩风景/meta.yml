@@ -1,0 +1,23 @@
+slug: 水彩风景
+title: 水彩风景
+license: CC-BY-4.0
+category: illustration
+locale: zh-CN
+tags:
+- watercolor
+- landscape
+models:
+- gpt-image-2
+- gpt-image-1.5
+- gpt-image-1
+nsfw: false
+featured: true
+createdAt: '2026-05-03'
+basedOn: null
+author:
+  name: NyxAstra Team
+  url: https://gavinschneestudio.com/products/nyxastra.html
+source:
+  app: NyxAstra
+  appVersion: null
+  importedFrom: illustration/水彩风景.nyxtemplate

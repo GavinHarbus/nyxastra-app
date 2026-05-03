@@ -1,0 +1,82 @@
+{
+  "body": "You are designing a single hero render of a brand logo concept.\n\nBRAND BRIEF\n- Brand name: {{brand_name}}\n- Industry / category: {{industry}}\n- Brand personality (3 adjectives): {{personality}}\n\nDESIGN DIRECTION\n- Logo style: {{style}}\n- Color palette: {{color_palette}}\n- Render presentation: {{presentation}}\n\nDESIGN RULES\n- Aspect: 4:5 portrait (~1024×1280) suitable for a brand-pitch deck slide\n- The logo is the ONLY hero — no other graphics competing\n- Brand name lettering must be crisply rendered, correctly spelled, and visually balanced\n- Mark + wordmark relationship clear; if mark only, keep it iconic\n- Style: identity-design portfolio polish — Pentagram, Collins, Mucho, &Walsh\n- Avoid: gradient mesh backgrounds, generic emblems, stock typefaces, drop shadows, AI-style chromatic aberrations, busy environments, mockup brand-guidelines layouts\n\nIf a field is empty, infer a default that aligns with the personality.",
+  "folderName": "Universal Briefs",
+  "name": "Universal · Logo Concept",
+  "parameterPreset": {
+    "format": "png",
+    "n": 1,
+    "quality": "high",
+    "size": {
+      "height": 1280,
+      "width": 1024
+    }
+  },
+  "schema": "nyxtemplate",
+  "tags": [
+    "universal",
+    "brand",
+    "logo",
+    "identity",
+    "brief"
+  ],
+  "variables": [
+    {
+      "allowedValues": [],
+      "defaultValue": "NyxAstra",
+      "description": "品牌名（英文全大写效果最稳）",
+      "kind": "text",
+      "name": "brand_name"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "specialty coffee roastery",
+      "description": "所在行业 / 类目（英文）",
+      "kind": "text",
+      "name": "industry"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "warm, precise, curious",
+      "description": "品牌性格（3 个形容词，英文）",
+      "kind": "text",
+      "name": "personality"
+    },
+    {
+      "allowedValues": [
+        "Geometric Wordmark",
+        "Minimal Mark + Type",
+        "Hand-Crafted Script",
+        "Modernist Monogram",
+        "3D Sculpted Render",
+        "Stamp / Seal Heritage",
+        "Bold Display Type"
+      ],
+      "defaultValue": "Geometric Wordmark",
+      "description": "logo 风格",
+      "kind": "enumeration",
+      "name": "style"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "ink black, warm cream, terracotta accent",
+      "description": "配色（英文）",
+      "kind": "text",
+      "name": "color_palette"
+    },
+    {
+      "allowedValues": [
+        "On Tactile Paper",
+        "Embossed Card",
+        "Glass Storefront",
+        "Painted Wall",
+        "Floating Studio Render",
+        "Knolled Brand Items"
+      ],
+      "defaultValue": "On Tactile Paper",
+      "description": "呈现方式",
+      "kind": "enumeration",
+      "name": "presentation"
+    }
+  ],
+  "version": 1
+}

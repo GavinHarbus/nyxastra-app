@@ -1,0 +1,38 @@
+{
+  "body": "16-bit pixel art illustration of {{subject}}, {{palette}} palette, limited dithering, crisp pixels, retro game cover composition, no anti-aliasing.",
+  "folderName": "Illustration",
+  "name": "像素风插画",
+  "parameterPreset": {
+    "format": "png",
+    "quality": "medium",
+    "size": {
+      "height": 1024,
+      "width": 1024
+    }
+  },
+  "schema": "nyxtemplate",
+  "tags": [
+    "pixel-art",
+    "game"
+  ],
+  "variables": [
+    {
+      "allowedValues": [],
+      "defaultValue": "a tiny adventurer entering an ancient temple",
+      "kind": "text",
+      "name": "subject"
+    },
+    {
+      "allowedValues": [
+        "warm sunset",
+        "cool dusk",
+        "monochrome green",
+        "vivid arcade"
+      ],
+      "defaultValue": "warm sunset",
+      "kind": "enumeration",
+      "name": "palette"
+    }
+  ],
+  "version": 1
+}

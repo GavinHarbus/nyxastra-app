@@ -14,8 +14,8 @@
     <img src="https://img.shields.io/github/v/release/GavinHarbus/nyxastra-app?include_prereleases&label=Download&style=for-the-badge&color=brightgreen" alt="Download latest release">
   </a>
   &nbsp;&nbsp;
-  <a href="templates/">
-    <img src="https://img.shields.io/badge/Template_Gallery-15+_templates-orange?style=for-the-badge" alt="Template Gallery">
+  <a href="https://gavinschneestudio.com/nyxastra/templates/">
+    <img src="https://img.shields.io/badge/Template_Gallery-Browse_online-orange?style=for-the-badge" alt="Template Gallery">
   </a>
 </p>
 
@@ -84,7 +84,9 @@ Don't start from a blank prompt. NyxAstra ships with **15 curated templates** co
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
 </p>
 
-**Want more?** Browse the **[Template Gallery](templates/)** for community-contributed templates:
+**Browse the full gallery → [gavinschneestudio.com/nyxastra/templates](https://gavinschneestudio.com/nyxastra/templates/)**
+
+The gallery includes both the official starter pack and community-submitted templates. Click *Download* on any card to get the `.nyxtemplate` file, then double-click it to import into NyxAstra.
 
 | | | |
 |:---:|:---:|:---:|
@@ -97,13 +99,13 @@ Don't start from a blank prompt. NyxAstra ships with **15 curated templates** co
 
 ## Contribute your templates
 
-NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welcome to contribute**.
+NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welcome to contribute**. The full guide lives in [`community/CONTRIBUTING.md`](community/CONTRIBUTING.md); the short version:
 
 1. **Design** a prompt in NyxAstra with `{{variables}}`
-2. **Export** it — right-click the template, choose *Export*
-3. **Share** it — [open an issue](https://github.com/GavinHarbus/nyxastra-app/issues/new) with your `.nyxtemplate` file attached, or submit a pull request to the [`templates/`](templates/) folder
+2. **Export** it — right-click the template, choose *Export as .nyxtemplate*
+3. **Submit** it — open a Pull Request that drops the file into [`community/submissions/`](community/submissions/), or [open a submission issue](https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml) and a maintainer will help.
 
-Your template will appear in the gallery with a preview image, credited to you. Great templates may be featured in future releases of NyxAstra.
+CI will lint the file, strip EXIF from the cover, unpack it into the source tree, and (after review) add it to the next gallery rebuild — credited to you under the license you choose.
 
 ---
 
@@ -135,7 +137,8 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ## More
 
-- [Template Gallery](templates/) — browse and download prompt templates
+- [Template Gallery](https://gavinschneestudio.com/nyxastra/templates/) — browse and download community templates
+- [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
 - [Changelog](CHANGELOG.md) — what's new in each version
 - [FAQ](FAQ.md) — common questions answered
 - [Privacy Policy](PRIVACY.md) — the full details

@@ -1,0 +1,90 @@
+{
+  "body": "You are creating a magazine-grade hero shot of a single product for an e-commerce campaign.\n\nPRODUCT BRIEF\n- Product name: {{product_name}}\n- Product category (informs styling): {{product_category}}\n- Brand label / wording on the product: {{brand_label}}\n\nVISUAL DIRECTION\n- Background mood: {{background_mood}}\n- Lighting style: {{lighting}}\n- Color palette: {{color_palette}}\n\nDESIGN RULES\n- Aspect: 2:3 vertical (~1024×1536), print- and social-ready\n- ONE hero product, centered or rule-of-thirds, occupying 40–60% of frame\n- Surface, props and shadow logic match the brand mood — restrained, never cluttered\n- All product label text must be crisp, correctly spelled, and legible\n- Style: high-end commercial photography polish — Apple product shots, Aesop, Hermès, Le Labo\n- Avoid: stock-photo backdrops, busy distractors, harsh on-product flares, overprocessed gradients\n\nIf any field is empty or \"—\", infer the most tasteful default for a premium brand.",
+  "folderName": "Universal Briefs",
+  "name": "Universal · Product Hero Shot",
+  "parameterPreset": {
+    "format": "png",
+    "n": 1,
+    "quality": "high",
+    "size": {
+      "height": 1536,
+      "width": 1024
+    }
+  },
+  "schema": "nyxtemplate",
+  "tags": [
+    "universal",
+    "product",
+    "e-commerce",
+    "brief"
+  ],
+  "variables": [
+    {
+      "allowedValues": [],
+      "defaultValue": "Aurora Eau de Parfum 50ml",
+      "description": "产品名",
+      "kind": "text",
+      "name": "product_name"
+    },
+    {
+      "allowedValues": [
+        "Fragrance / Beauty",
+        "Skincare",
+        "Beverage / Bottle",
+        "Food / Snack Pack",
+        "Tech / Hardware",
+        "Apparel / Accessory",
+        "Home / Object",
+        "Jewelry"
+      ],
+      "defaultValue": "Fragrance / Beauty",
+      "description": "产品类目",
+      "kind": "enumeration",
+      "name": "product_category"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "AURORA",
+      "description": "瓶身/包装上的品牌字样",
+      "kind": "text",
+      "name": "brand_label"
+    },
+    {
+      "allowedValues": [
+        "Studio Minimal",
+        "Editorial Marble",
+        "Warm Sunlit",
+        "Dark Cinematic",
+        "Outdoor Natural",
+        "Surreal Floating",
+        "Geometric Set"
+      ],
+      "defaultValue": "Studio Minimal",
+      "description": "背景氛围",
+      "kind": "enumeration",
+      "name": "background_mood"
+    },
+    {
+      "allowedValues": [
+        "Soft Diffuse Daylight",
+        "Hard Window Light",
+        "Warm Golden Hour",
+        "Dramatic Spot",
+        "Bright Clean Studio",
+        "Moody Low Key"
+      ],
+      "defaultValue": "Soft Diffuse Daylight",
+      "description": "布光",
+      "kind": "enumeration",
+      "name": "lighting"
+    },
+    {
+      "allowedValues": [],
+      "defaultValue": "warm cream, oat, soft gold",
+      "description": "配色描述（英文最稳）",
+      "kind": "text",
+      "name": "color_palette"
+    }
+  ],
+  "version": 1
+}

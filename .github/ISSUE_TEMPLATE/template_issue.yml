@@ -1,0 +1,45 @@
+name: Report a community template issue
+description: A template in the gallery is broken, mislabeled, or violates the content policy.
+title: "[Template issue] "
+labels: ["area:community", "template-issue"]
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Template slug
+      description: |
+        Find it in the URL on the gallery page, or in
+        `community/templates/<slug>/` in this repo.
+      placeholder: e.g. cinematic-portrait
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What's wrong?
+      options:
+        - "Broken — fails to import / generates errors"
+        - "Mislabeled — wrong category, tags, or description"
+        - "Cover image issue — broken, low quality, or unrelated"
+        - "Content policy violation"
+        - "Author / license dispute"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      placeholder: |
+        Describe the problem. If reproducible, list the steps.
+        Screenshots welcome.
+    validations:
+      required: true
+
+  - type: input
+    id: nyxastra-version
+    attributes:
+      label: NyxAstra version (if relevant)
+      placeholder: e.g. 0.2.1

@@ -1,0 +1,29 @@
+{
+  "body": "极简高定线描角色肖像，{{角色}}，用最少的线条保留角色识别点，  用大面积留白制造高级感，  用一点点淡彩或淡墨压住视觉重心。发型、五官、服装都不做完整堆细节，  只留下最关键的轮廓和气质。画面角落自然加入手写签名“{{签名}}”",
+  "folderName": "Illustration",
+  "name": "极简高定线描角色肖像",
+  "parameterPreset": {
+    "background": "opaque",
+    "format": "png",
+    "quality": "low",
+    "size": {
+      "height": 1024,
+      "width": 1024
+    }
+  },
+  "schema": "nyxtemplate",
+  "tags": [],
+  "variables": [
+    {
+      "allowedValues": [],
+      "kind": "text",
+      "name": "签名"
+    },
+    {
+      "allowedValues": [],
+      "kind": "text",
+      "name": "角色"
+    }
+  ],
+  "version": 1
+}

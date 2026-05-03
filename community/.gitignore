@@ -1,0 +1,9 @@
+# CI build output. Regenerated from `community/templates/` on every build —
+# never commit. The website / app consumes the published artifacts from
+# the GitHub Pages deployment, not from git.
+dist/
+
+# Local Python virtualenv (for running scripts)
+.venv/
+__pycache__/
+*.pyc
