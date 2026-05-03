@@ -104,7 +104,15 @@ jobs:
   build:
     name: Build & publish dist/
     needs: validate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # `always()` is required because `intake` is skipped on push events,
+    # and that "skipped" status would otherwise propagate down the
+    # `needs` chain (validate → build) and silently skip this job too,
+    # even though validate ran successfully via its own `if: always()`.
+    if: |
+      always() &&
+      needs.validate.result == 'success' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
