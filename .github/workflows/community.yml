@@ -102,7 +102,7 @@ jobs:
         run: python3 community/scripts/build_community.py --check
 
   build:
-    name: Build dist/ artifacts
+    name: Build & publish dist/
     needs: validate
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -122,12 +122,31 @@ jobs:
       - name: Build dist/
         run: python3 community/scripts/build_community.py --build
 
-      # Publish the gallery artifacts so the static website (and, later,
-      # the in-app Discover tab) can fetch them. Swap to a GitHub Pages
-      # deploy or rsync-to-CDN step here when the website goes live.
+      # Keep an artifact copy for 30 days so we can grab a specific build
+      # from the Actions UI if we ever need to debug a regression.
       - name: Upload dist/ as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: community-dist
           path: community/dist/
           retention-days: 30
+
+      # Publish to the gh-pages branch so https://gavinharbus.github.io/
+      # nyxastra-app/ serves index.json + covers/ + templates/. The static
+      # gallery on gavinschneestudio.com fetches from this URL.
+      #
+      # First-time setup (one-off, in repo Settings → Pages):
+      #   Source: Deploy from a branch  ·  Branch: gh-pages  ·  Folder: / (root)
+      - name: Add a no-Jekyll marker
+        run: touch community/dist/.nojekyll
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: community/dist
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: "nyxastra-community-bot"
+          user_email: "community-bot@gavinschneestudio.com"
+          commit_message: "deploy: community/dist (${{ github.sha }})"
