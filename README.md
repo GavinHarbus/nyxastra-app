@@ -90,9 +90,9 @@ The gallery includes both the official starter pack and community-submitted temp
 
 | | | |
 |:---:|:---:|:---:|
-| <img src="templates/previews/Universal_-_Event_Poster.jpg" width="200"> | <img src="templates/previews/Universal_-_Infographic.jpg" width="200"> | <img src="templates/previews/Universal_-_Logo_Concept.jpg" width="200"> |
+| <img src="https://gavinschneestudio.org/images/nyxastra/templates/event-poster.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/infographic.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/logo-concept.jpg" width="200"> |
 | Event Poster | Infographic | Logo Concept |
-| <img src="templates/previews/Universal_-_Product_Hero_Shot.jpg" width="200"> | <img src="templates/previews/Universal_-_Social_Media_Post.jpg" width="200"> | <img src="templates/previews/Universal_-_UI_Mockup.jpg" width="200"> |
+| <img src="https://gavinschneestudio.org/images/nyxastra/templates/product-hero.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/social-media.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/ui-mockup.jpg" width="200"> |
 | Product Hero Shot | Social Media Post | UI Mockup |
 
 ---
