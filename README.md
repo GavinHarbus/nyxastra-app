@@ -54,7 +54,7 @@ Most AI image tools lock you into a web app, charge monthly fees, and route ever
 
 ### Generate up to 4K images
 
-Full parameter control — quality, size, format, transparent backgrounds, moderation. Supports **gpt-image-2**, gpt-image-1.5, and gpt-image-1.
+Full parameter control — quality, size, format, transparent backgrounds, moderation. Supports **gpt-image-2**, gpt-image-1.5, gpt-image-1, and gpt-image-1-mini.
 
 <p align="center">
   <img src="assets/screenshots/generate.png" width="600" alt="Generation interface">

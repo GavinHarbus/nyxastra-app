@@ -2,6 +2,28 @@
 
 All notable changes to NyxAstra will be documented in this file.
 
+## [0.2.1] - 2026-05-03
+
+### OpenAI API Spec Alignment
+
+**New parameters & options**
+- Auto option for Size, Quality, and Background — let the model choose the best setting
+- WebP output format support across generation, export, and format detection
+- 32,000-character prompt limit (was 4,000), matching the actual API spec
+
+**New model**
+- Added gpt-image-1-mini with correct capability defaults
+
+**Validation fixes**
+- Transparent background now correctly allowed with both PNG and WebP
+- Output compression now works with WebP (previously JPEG-only)
+- Auto size bypasses pixel validation as expected
+
+### UX Improvements
+- Custom size input: editable text fields replace stepper-only controls — type exact pixel values directly
+- Custom size fields auto-snap to the nearest valid multiple of 16 on blur
+- "Done" badge now stays visible until you interact with the page, instead of disappearing on a fixed timer
+
 ## [0.2.0] - 2026-05-02
 
 ### Initial Public Release
