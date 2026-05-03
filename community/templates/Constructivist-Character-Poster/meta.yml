@@ -1,0 +1,26 @@
+slug: Constructivist-Character-Poster
+title: Constructivist Character Poster
+license: All Rights Reserved
+category: branding
+locale: universal
+tags:
+- poster
+- graphic-design
+- constructivist
+- character
+- vector
+models:
+- gpt-image-2
+- gpt-image-1.5
+- gpt-image-1
+nsfw: false
+featured: false
+createdAt: '2026-05-03'
+basedOn: null
+author:
+  name: Anissa
+  url: https://x.com/SimplyAnnisa
+source:
+  app: NyxAstra
+  appVersion: null
+  importedFrom: community/submissions/constructivist-character-poster.nyxtemplate
