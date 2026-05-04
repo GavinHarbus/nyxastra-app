@@ -1,32 +1,36 @@
-"""Schema definitions and validation for community templates.
+"""Schema validation for community `.nyxtemplate` files (v2).
 
-We deliberately hand-roll validation rather than pulling in `jsonschema`
-because:
+The community pipeline consumes a flat directory of single-file
+`.nyxtemplate` documents at `community/templates/*.nyxtemplate`.
+Every file is the same JSON shape NyxAstra writes when the user picks
+"Export…" — schema=`nyxtemplate`, version=2, with an embedded
+`community` block carrying author / license / category / locale /
+models / nsfw.
+
+We deliberately hand-roll validation rather than pulling in
+`jsonschema` because:
   * the rules are few and the error messages we want are tailored to
     template authors, not jsonschema's generic prose;
   * the repo dependency surface stays Pillow + PyYAML only.
 
-Two things are validated here:
-  1. The `.nyxtemplate` JSON shape (`TemplateExchangeDocument`,
-     schema="nyxtemplate", version<=1) — what the user uploads.
-  2. The `meta.yml` companion file we generate on unpack and ask
-     contributors to complete.
+This module never touches the filesystem on its own — pass it a
+parsed document and it appends issues to a `ValidationResult`.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date
 from typing import Any
 from urllib.parse import urlsplit
 
 # ──────────────────────────────────────────────────────────────────────
 # Constants — must stay in sync with NyxAstra's TemplateExchange.swift.
 # When NyxAstra bumps the schema, bump TEMPLATE_SCHEMA_MAX_VERSION here
-# in the same PR and update the unpack/pack code paths.
+# in the same PR and update the validators below.
 # ──────────────────────────────────────────────────────────────────────
 
-TEMPLATE_SCHEMA           = "nyxtemplate"
-TEMPLATE_SCHEMA_MAX_VERSION = 1
+TEMPLATE_SCHEMA              = "nyxtemplate"
+TEMPLATE_SCHEMA_MIN_VERSION  = 2
+TEMPLATE_SCHEMA_MAX_VERSION  = 2
 
 VALID_VARIABLE_KINDS = {"text", "multiline", "enumeration", "number"}
 VALID_IMAGE_FORMATS  = {"png", "jpeg", "webp"}
@@ -40,25 +44,45 @@ VALID_CATEGORIES = {
     "poster", "social", "universal", "other",
 }
 
-# Models the gallery filter exposes today. New entries are added when
-# NyxAstra ships support; older deprecated families stay listed for
-# back-compat with templates exported by older app versions.
-VALID_MODELS = {
-    "gpt-image-2",
-    "gpt-image-1.5",
-    "gpt-image-1",
-    "gpt-image-1-mini",
-}
-
-# License identifiers we accept in meta.yml. Anything outside this set
-# triggers a lint warning rather than an error — there are real fringe
-# cases (e.g. company-specific terms) that maintainers may approve.
+# License identifiers we accept in the community block. Anything outside
+# this set triggers a lint warning rather than an error — there are real
+# fringe cases (e.g. company-specific terms) that maintainers may approve.
 KNOWN_LICENSES = {
     "CC0-1.0",
     "CC-BY-4.0",
     "CC-BY-SA-4.0",
     "All Rights Reserved",
 }
+
+# `author.url` security/quality gate.
+#
+# The gallery renders this URL as a clickable link on the public site,
+# so it must come from a known, trustworthy host. Without this gate a
+# malicious PR could attach a phishing site, an SEO/affiliate spam URL,
+# or a `javascript:` payload to a community template.
+#
+# Allowed schemes: https only (no http, no javascript:, no data:, etc.).
+# Allowed hosts: contributor profile pages on platforms where identity
+# is meaningfully verifiable (GitHub) or socially attributable (X/BSky/
+# Mastodon flagship/Xiaohongshu/Bilibili) plus the studio's own site.
+# To add a host, edit this set and bump it in the same PR — that way
+# new attribution sources go through human review.
+ALLOWED_AUTHOR_URL_HOSTS = frozenset({
+    "github.com",
+    "x.com",
+    "twitter.com",
+    "bsky.app",
+    "mastodon.social",
+    "xiaohongshu.com",
+    "www.xiaohongshu.com",
+    "bilibili.com",
+    "space.bilibili.com",
+    "gavinschneestudio.org",
+})
+
+# Hard cap to keep the link cell tidy and avoid people stuffing tracking
+# parameters / referral chains into it.
+MAX_AUTHOR_URL_LENGTH = 200
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -67,7 +91,7 @@ KNOWN_LICENSES = {
 
 @dataclass
 class ValidationIssue:
-    """A single problem found while validating a template or its meta."""
+    """A single problem found while validating a template document."""
     severity: str          # "error" | "warning"
     code: str              # short stable identifier, e.g. "missing-field"
     message: str           # human-friendly explanation
@@ -109,11 +133,13 @@ class ValidationResult:
 # are not accepted as community submissions; one PR = one template).
 # ──────────────────────────────────────────────────────────────────────
 
-def validate_nyxtemplate(doc: Any) -> ValidationResult:
-    """Validate a parsed `.nyxtemplate` JSON document (single-template form).
+def validate_nyxtemplate(doc: Any, *, require_community: bool = True) -> ValidationResult:
+    """Validate a parsed `.nyxtemplate` JSON document (v2, single template).
 
-    Returns a `ValidationResult`. The caller decides whether warnings are
-    fatal in their context.
+    Files placed into `community/templates/` are the public-gallery
+    source of truth, so by default the embedded `community` block is
+    required and validated. Pass `require_community=False` only if you
+    want to lint a private template that doesn't carry attribution.
     """
     r = ValidationResult()
 
@@ -135,11 +161,19 @@ def validate_nyxtemplate(doc: Any) -> ValidationResult:
     version = doc.get("version")
     if not isinstance(version, int):
         r.error("missing-version", "Top-level `version` must be an integer.", "version")
+    elif version < TEMPLATE_SCHEMA_MIN_VERSION:
+        r.error(
+            "stale-version",
+            f"Template uses schema v{version}, but the community pipeline now "
+            f"requires v{TEMPLATE_SCHEMA_MIN_VERSION}+. Re-export the template from "
+            "a recent NyxAstra build.",
+            "version",
+        )
     elif version > TEMPLATE_SCHEMA_MAX_VERSION:
         r.error(
             "future-version",
-            f"Template uses schema version {version}, but this pipeline only "
-            f"understands up to version {TEMPLATE_SCHEMA_MAX_VERSION}. "
+            f"Template uses schema v{version}, but this pipeline only "
+            f"understands up to v{TEMPLATE_SCHEMA_MAX_VERSION}. "
             "Update the build scripts before merging.",
             "version",
         )
@@ -233,6 +267,20 @@ def validate_nyxtemplate(doc: Any) -> ValidationResult:
             if not isinstance(data_b64, str) or not data_b64:
                 r.error("cover-no-data", "Cover `dataBase64` must be a non-empty string.", "cover.dataBase64")
 
+    # Community block
+    community = doc.get("community")
+    if community is None:
+        if require_community:
+            r.error(
+                "community-missing",
+                "Files in `community/templates/` must carry a `community` block "
+                "(author, license, category, …). Open the template in NyxAstra, "
+                "fill in the Community Sharing section in the editor, and re-export.",
+                "community",
+            )
+    else:
+        _validate_community(community, r)
+
     return r
 
 
@@ -302,195 +350,124 @@ def _placeholders_in(body: str) -> set[str]:
 
 
 # ──────────────────────────────────────────────────────────────────────
-# meta.yml validation
+# `community` block validation
 # ──────────────────────────────────────────────────────────────────────
 
-# Required and optional fields in meta.yml. Auto-generated meta files
-# may have placeholder values for the required fields — that's fine
-# during the unpack step but errors during build.
-
-META_REQUIRED = {"slug", "title", "license", "category", "author"}
-META_OPTIONAL = {"locale", "models", "tags", "nsfw", "featured", "createdAt", "basedOn", "source"}
-META_ALL      = META_REQUIRED | META_OPTIONAL
-
-PLACEHOLDER_AUTHOR_NAME = "FIXME-please-fill-in"
-
-# `author.url` security/quality gate.
-#
-# The gallery renders this URL as a clickable link on the public site,
-# so it must come from a known, trustworthy host. Without this gate a
-# malicious PR could attach a phishing site, an SEO/affiliate spam URL,
-# or a `javascript:` payload to a community template.
-#
-# Allowed schemes: https only (no http, no javascript:, no data:, etc.).
-# Allowed hosts: contributor profile pages on platforms where identity
-# is meaningfully verifiable (GitHub) or socially attributable (X/BSky/
-# Mastodon flagship/Xiaohongshu/Bilibili) plus the studio's own site.
-# To add a host, edit this set and bump it in the same PR — that way
-# new attribution sources go through human review.
-ALLOWED_AUTHOR_URL_HOSTS = frozenset({
-    "github.com",
-    "x.com",
-    "twitter.com",
-    "bsky.app",
-    "mastodon.social",
-    "xiaohongshu.com",
-    "www.xiaohongshu.com",
-    "bilibili.com",
-    "space.bilibili.com",
-    "gavinschneestudio.org",
-})
-
-# Hard cap to keep the link cell tidy and avoid people stuffing tracking
-# parameters / referral chains into it.
-MAX_AUTHOR_URL_LENGTH = 200
+# Required fields when a community block is present and we're treating
+# the file as a public-gallery submission. `models`, `locale`, `nsfw`,
+# `featured`, `basedOn` stay optional.
+COMMUNITY_REQUIRED = {"author", "license", "category"}
 
 
-def validate_meta(meta: Any, *, allow_placeholders: bool = False) -> ValidationResult:
-    """Validate a parsed `meta.yml` document.
+def _validate_community(community: Any, r: ValidationResult) -> None:
+    if not isinstance(community, dict):
+        r.error("community-not-object", "`community` must be a JSON object.", "community")
+        return
 
-    `allow_placeholders=True` lets the unpack step accept its own
-    auto-generated stubs (where author.name is the FIXME sentinel) without
-    raising. The build step always passes False.
-    """
-    r = ValidationResult()
-    if not isinstance(meta, dict):
-        r.error("meta-not-object", "meta.yml must be a YAML mapping at the top level.")
-        return r
+    for field in COMMUNITY_REQUIRED:
+        if field not in community or community[field] in (None, "", [], {}):
+            r.error(
+                "community-missing-field",
+                f"`community.{field}` is required for templates in the public gallery.",
+                f"community.{field}",
+            )
 
-    for key in META_REQUIRED:
-        if key not in meta:
-            r.error("meta-missing", f"Required field `{key}` is missing.", key)
+    license_id = community.get("license")
+    if license_id is not None:
+        if not isinstance(license_id, str):
+            r.error("community-bad-license", "`community.license` must be a string.", "community.license")
+        elif license_id not in KNOWN_LICENSES:
+            r.warn(
+                "community-unknown-license",
+                f"License {license_id!r} is not in the standard set "
+                f"{sorted(KNOWN_LICENSES)}. Maintainer approval required.",
+                "community.license",
+            )
 
-    extra = set(meta.keys()) - META_ALL
-    for key in extra:
-        r.warn("meta-unknown", f"Unknown field `{key}` will be ignored by the build.", key)
+    category = community.get("category")
+    if category is not None:
+        if not isinstance(category, str):
+            r.error("community-bad-category", "`community.category` must be a string.", "community.category")
+        elif category not in VALID_CATEGORIES:
+            r.error(
+                "community-bad-category",
+                f"`community.category` must be one of {sorted(VALID_CATEGORIES)}; got {category!r}.",
+                "community.category",
+            )
 
-    slug = meta.get("slug")
-    if slug is not None and (not isinstance(slug, str) or not slug.strip()):
-        r.error("meta-bad-slug", "`slug` must be a non-empty string.", "slug")
-
-    title = meta.get("title")
-    if title is not None and (not isinstance(title, str) or not title.strip()):
-        r.error("meta-bad-title", "`title` must be a non-empty string.", "title")
-
-    license_id = meta.get("license")
-    if license_id is not None and license_id not in KNOWN_LICENSES:
-        r.warn(
-            "meta-unknown-license",
-            f"License {license_id!r} is not in the standard set "
-            f"{sorted(KNOWN_LICENSES)}. Maintainer approval required.",
-            "license",
-        )
-
-    category = meta.get("category")
-    if category is not None and category not in VALID_CATEGORIES:
-        r.error(
-            "meta-bad-category",
-            f"`category` must be one of {sorted(VALID_CATEGORIES)}; got {category!r}.",
-            "category",
-        )
-
-    author = meta.get("author")
+    author = community.get("author")
     if author is not None:
         if not isinstance(author, dict):
-            r.error("meta-bad-author", "`author` must be a mapping with at least `name`.", "author")
+            r.error("community-bad-author", "`community.author` must be a mapping with at least `name`.", "community.author")
         else:
             name = author.get("name")
             if not isinstance(name, str) or not name.strip():
-                r.error("meta-author-no-name", "`author.name` is required.", "author.name")
-            elif name == PLACEHOLDER_AUTHOR_NAME and not allow_placeholders:
                 r.error(
-                    "meta-author-placeholder",
-                    "`author.name` still contains the auto-generated placeholder. "
-                    "Edit meta.yml to credit yourself (or set it to `Anonymous`).",
-                    "author.name",
+                    "community-author-no-name",
+                    "`community.author.name` is required (use 'Anonymous' if you'd rather not be credited).",
+                    "community.author.name",
                 )
-
             url = author.get("url")
-            if url is not None and not (isinstance(url, str) and not url.strip()):
-                # Treat empty-string the same as absent (skipping the check),
-                # but anything else must pass the host/scheme gate below.
-                _validate_author_url(url, r, allow_placeholders=allow_placeholders)
+            if url not in (None, ""):
+                _validate_author_url(url, r)
 
-    models = meta.get("models")
-    if models is not None:
-        if not isinstance(models, list) or not models:
-            r.error("meta-bad-models", "`models` must be a non-empty list.", "models")
-        else:
-            for i, m in enumerate(models):
-                if m not in VALID_MODELS:
-                    r.warn(
-                        "meta-unknown-model",
-                        f"Model {m!r} is not in the known set {sorted(VALID_MODELS)}.",
-                        f"models[{i}]",
-                    )
-
-    locale = meta.get("locale")
-    if locale is not None and (not isinstance(locale, str) or not locale.strip()):
-        r.error("meta-bad-locale", "`locale` must be a string like 'en', 'zh-CN', or 'universal'.", "locale")
-
-    nsfw = meta.get("nsfw", False)
-    if not isinstance(nsfw, bool):
-        r.error("meta-bad-nsfw", "`nsfw` must be a boolean.", "nsfw")
-
-    featured = meta.get("featured", False)
-    if not isinstance(featured, bool):
-        r.error("meta-bad-featured", "`featured` must be a boolean.", "featured")
-
-    created = meta.get("createdAt")
-    if created is not None and not isinstance(created, (str, date)):
-        r.error("meta-bad-createdAt", "`createdAt` must be an ISO date string (YYYY-MM-DD).", "createdAt")
-
-    return r
+    # Gently warn (not error) if the contributor still has fields from
+    # the old schema lying around. Older NyxAstra builds wrote these
+    # straight into the file; newer builds drop them on export.
+    legacy_fields = {"locale", "models", "basedOn", "nsfw", "featured"}
+    for legacy in sorted(legacy_fields & set(community)):
+        r.warn(
+            "community-legacy-field",
+            f"`community.{legacy}` is no longer recognized and will be ignored. "
+            "Re-export the template from a current NyxAstra build to drop it.",
+            f"community.{legacy}",
+        )
 
 
-def _validate_author_url(url: Any, r: ValidationResult, *, allow_placeholders: bool) -> None:
+def _validate_author_url(url: Any, r: ValidationResult) -> None:
     """Enforce the author.url security/quality gate.
 
     See `ALLOWED_AUTHOR_URL_HOSTS` for context. We split the rules into
     distinct error codes so a contributor sees the exact thing to fix.
-    `allow_placeholders` is unused today but kept symmetric with the rest
-    of validate_meta in case we ever want a placeholder URL.
     """
     if not isinstance(url, str):
-        r.error("meta-author-url-type", "`author.url` must be a string (or omitted).", "author.url")
+        r.error("community-author-url-type", "`community.author.url` must be a string (or omitted).", "community.author.url")
         return
 
     if len(url) > MAX_AUTHOR_URL_LENGTH:
         r.error(
-            "meta-author-url-too-long",
-            f"`author.url` is {len(url)} chars; max is {MAX_AUTHOR_URL_LENGTH}. "
+            "community-author-url-too-long",
+            f"`community.author.url` is {len(url)} chars; max is {MAX_AUTHOR_URL_LENGTH}. "
             "Strip tracking parameters and use the canonical profile URL.",
-            "author.url",
+            "community.author.url",
         )
         return
 
     try:
         parts = urlsplit(url)
     except ValueError:
-        r.error("meta-author-url-malformed", "`author.url` is not a parseable URL.", "author.url")
+        r.error("community-author-url-malformed", "`community.author.url` is not a parseable URL.", "community.author.url")
         return
 
     if parts.scheme != "https":
         r.error(
-            "meta-author-url-scheme",
-            f"`author.url` must use https:// (got scheme {parts.scheme!r}). "
+            "community-author-url-scheme",
+            f"`community.author.url` must use https:// (got scheme {parts.scheme!r}). "
             "http://, javascript:, data:, and other schemes are rejected.",
-            "author.url",
+            "community.author.url",
         )
         return
 
     host = (parts.hostname or "").lower()
     if not host:
-        r.error("meta-author-url-no-host", "`author.url` has no host component.", "author.url")
+        r.error("community-author-url-no-host", "`community.author.url` has no host component.", "community.author.url")
         return
 
     if host not in ALLOWED_AUTHOR_URL_HOSTS:
         r.error(
-            "meta-author-url-host",
-            f"`author.url` host {host!r} is not in the allow-list. "
+            "community-author-url-host",
+            f"`community.author.url` host {host!r} is not in the allow-list. "
             f"Allowed: {sorted(ALLOWED_AUTHOR_URL_HOSTS)}. "
             "If you need a new platform added, open an issue or include the rationale in your PR.",
-            "author.url",
+            "community.author.url",
         )

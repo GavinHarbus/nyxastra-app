@@ -22,61 +22,69 @@ parameter preset work end to end. Use the result you like best as the
 **cover image** (right-click an image in the Library and choose
 *Set as template cover*).
 
-### 2. Export the `.nyxtemplate` file
+### 2. Fill in the **Community Sharing** section in the editor
 
-Right-click the template → **Export…** and save the `.nyxtemplate` file
-somewhere convenient. The exported file is a single self-contained JSON
-document with the cover image embedded — no missing assets to worry
-about.
+Open the template editor and expand the **Community Sharing** section.
+There are only three things to fill in:
 
-<p align="center">
-  <img src="../assets/screenshots/exporttemplate.png" width="720" alt="Exporting a template as .nyxtemplate">
-</p>
-
-### 3. Open a Pull Request
-
-1. Fork this repository.
-2. Drop your `.nyxtemplate` file into [`community/submissions/`](submissions/).
-3. Commit with a message like `Add template: <name>`.
-4. Open a Pull Request.
-
-### 4. Wait for CI to do the boring work
-
-Within a couple of minutes, the **NyxAstra Community CI** workflow will:
-
-1. Lint the file (schema, variables, image validity, secret scan).
-2. **Unpack** it into `community/templates/<slug>/`:
-   - `template.json` — the prompt body, variables, parameter preset.
-   - `cover.<format>` — the cover image, with EXIF metadata stripped.
-   - `meta.yml` — author, license, category, tags, models. **You'll be asked to fill in the missing fields here in a follow-up commit.**
-3. Delete your original `.nyxtemplate` from `submissions/`.
-4. Push the unpacked files back to your PR branch.
-
-### 5. Fill in the metadata
-
-Edit the auto-generated `community/templates/<slug>/meta.yml` and complete:
-
-- `author.name` — how you'd like to be credited (handle, real name,
+- **Author name** — how you'd like to be credited (handle, real name,
   or `Anonymous`).
-- `author.url` — *optional* link to your profile. Must be `https://`
+- **Author URL** — *optional* link to your profile. Must be `https://`
   on one of these hosts: `github.com`, `x.com` / `twitter.com`,
   `bsky.app`, `mastodon.social`, `xiaohongshu.com`, `bilibili.com` /
   `space.bilibili.com`, or `gavinschneestudio.org`. Other hosts are
   rejected by CI to keep the gallery free of phishing / SEO spam.
   Need a host added? Open an issue or include the rationale in your PR.
-- `license` — choose one (see [Licenses](#licenses) below).
-- `category` — `photo` / `illustration` / `branding` / `universal` / `other`.
-- `models` — which models this works best with.
-- `locale` — `en`, `zh-CN`, `ja`, … or `universal` if language-agnostic.
+- **License** — see [Licenses](#licenses) below.
+- **Category** — `photo` / `illustration` / `branding` / `universal` / `other`.
 
-Push the edited `meta.yml` to the same PR.
+That's it. Free-text classification lives in the existing `tags` field;
+model compatibility is something the gallery surfaces by letting visitors
+try the template, so contributors don't need to predict it.
+
+These fields are saved alongside the prompt and travel with the
+exported file — there is no separate `meta.yml` to maintain.
+
+### 3. Export the `.nyxtemplate` file
+
+Right-click the template → **Export…** and save the `.nyxtemplate` file
+somewhere convenient. The exported file is a single self-contained JSON
+document with the cover image embedded and the community block already
+filled in — no missing assets, no follow-up commits.
+
+<p align="center">
+  <img src="../assets/screenshots/exporttemplate.png" width="720" alt="Exporting a template as .nyxtemplate">
+</p>
+
+### 4. Open a Pull Request
+
+1. Fork this repository.
+2. Drop your `.nyxtemplate` file into [`community/templates/`](templates/).
+   Pick a clear, URL-safe filename (no spaces or `?:*`); the filename
+   minus the extension becomes the template's slug on the gallery.
+3. Commit with a message like `Add template: <name>`.
+4. Open a Pull Request.
+
+### 5. Wait for CI (one round, ~1 minute)
+
+The **Community templates** workflow will:
+
+1. Validate the schema (v2) and the embedded community block.
+2. Scan the prompt body for accidentally-pasted secrets.
+3. Decode and sanity-check the embedded cover image.
+4. Build a preview of the gallery covers and attach them as a workflow
+   artifact, so reviewers can see the actual images without staring at
+   base64 in the JSON diff.
+
+That's it — no bot rewriting your branch, no second commit needed.
 
 ### 6. Review
 
 A maintainer will review for content policy, quality, and whether it
 duplicates an existing template. We may suggest small edits or
-adjustments to the metadata. Once merged, your template appears in the
-gallery on the next site rebuild.
+adjustments. Once merged, the gallery is rebuilt automatically on the
+next push to `main` and your template appears at
+`https://gavinharbus.github.io/nyxastra-app/`.
 
 ---
 
@@ -84,8 +92,7 @@ gallery on the next site rebuild.
 
 If you don't use git, [open an issue using the **Submit a template**
 template][issue-template] and attach your `.nyxtemplate` file. A
-maintainer will create the Pull Request for you and credit the
-authorship to whoever you specify.
+maintainer will create the Pull Request for you.
 
 [issue-template]: https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_issue.yml
 
@@ -100,13 +107,16 @@ authorship to whoever you specify.
 | Variables that meaningfully change the output | Variables that don't affect anything |
 | Parameter preset matched to the style (size, quality) | Random parameter preset |
 | 1–8 variables (more becomes a chore to fill) | 20+ micro-variables |
-| Works on at least two of `gpt-image-2` / `1.5` / `1` | Only works on a deprecated model |
+
+*Featured templates* are picked entirely by maintainers and live in
+[`community/featured.yml`](featured.yml) — there is no "feature me"
+button on the contributor side.
 
 ---
 
 ## Licenses
 
-Pick one in `meta.yml`:
+Pick one in the **Community Sharing** section:
 
 | License | Meaning |
 |---|---|

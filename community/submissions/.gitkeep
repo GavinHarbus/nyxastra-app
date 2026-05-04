@@ -1,9 +1,0 @@
-# This directory is the inbox for new community templates.
-#
-# Drop a `.nyxtemplate` file here in a pull request. CI will:
-#   1. Lint it (schema, variables, secrets, cover validity).
-#   2. Unpack it into `community/templates/<slug>/` (template.json + cover + meta.yml).
-#   3. Delete the original file from this directory.
-#   4. Push the unpacked form back into your PR.
-#
-# See ../CONTRIBUTING.md for full instructions.
