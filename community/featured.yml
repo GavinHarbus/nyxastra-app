@@ -1,0 +1,16 @@
+# Maintainer-curated featured templates list.
+#
+# This file is the *only* way to mark a template as featured. Contributors
+# can never self-promote — featuring decisions are made through review and
+# committed by maintainers in their own PR (or directly to main).
+#
+# Each entry is a slug (filename of `community/templates/<slug>.nyxtemplate`
+# without the extension). Unknown slugs are ignored at build time with a
+# warning so we never break the build by removing a template that this
+# list still references.
+#
+# Order matters: the gallery may sort featured templates in the order they
+# appear here. Add new featured templates at the bottom, retire old ones
+# by deleting their line.
+
+featured: []

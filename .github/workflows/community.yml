@@ -13,11 +13,12 @@ on:
       - "community/**"
       - ".github/workflows/community.yml"
 
-# Need write permission so the intake job can push the unpacked
-# .nyxtemplate back into the contributor's PR branch.
+# PRs from forks run as read-only by default; we only need write
+# permission on the gh-pages deploy that runs after merge to main.
+# The `lint` job below intentionally never asks for write — that
+# means PRs from external forks can never touch repo state.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   # Cancel a running workflow when a new commit arrives on the same PR.
@@ -25,21 +26,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  intake:
-    # Only auto-unpack on a PR (not on `main` push). On `main` the inbox
-    # should already be empty because intake ran during the PR.
-    if: github.event_name == 'pull_request'
-    name: Process community/submissions/
+  lint:
+    name: Lint community templates
     runs-on: ubuntu-latest
-    outputs:
-      unpacked: ${{ steps.intake.outputs.unpacked }}
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          # Need the token to push back to the PR branch.
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -51,69 +44,38 @@ jobs:
       - name: Install dependencies
         run: pip install -r community/scripts/requirements.txt
 
-      - name: Detect pending submissions
-        id: pending
-        run: |
-          shopt -s nullglob
-          files=(community/submissions/*.nyxtemplate)
-          echo "count=${#files[@]}" >> "$GITHUB_OUTPUT"
-
-      - name: Unpack submissions
-        id: intake
-        if: steps.pending.outputs.count != '0'
-        run: |
-          python3 community/scripts/intake_submissions.py
-          echo "unpacked=true" >> "$GITHUB_OUTPUT"
-
-      - name: Commit unpacked templates back to the PR branch
-        if: steps.intake.outputs.unpacked == 'true'
-        run: |
-          git config user.name  "nyxastra-community-bot"
-          git config user.email "community-bot@gavinschneestudio.org"
-          git add community/
-          if ! git diff --cached --quiet; then
-            git commit -m "ci: unpack community submission(s)"
-            git push
-          fi
-
-  validate:
-    name: Lint all templates
-    needs: intake
-    # Always run, even when the intake job was skipped (push to main).
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: community/scripts/requirements.txt
-
-      - name: Install dependencies
-        run: pip install -r community/scripts/requirements.txt
-
+      # `--check` is lint-only: validates schema (v2), the embedded
+      # `community` block (author/license/category/...), scans the
+      # prompt body for secrets, and decodes + sanity-checks each
+      # embedded cover image.
       - name: Lint
         run: python3 community/scripts/build_community.py --check
 
-  build:
+      # On PRs, also produce dist/ in dry-run mode and upload covers
+      # as an artifact so reviewers can preview the actual gallery
+      # images without having to base64-decode the JSON diff in their
+      # head. This is the single most useful affordance for review.
+      - name: Build dist/ (preview)
+        if: github.event_name == 'pull_request'
+        run: python3 community/scripts/build_community.py --build
+
+      - name: Upload cover preview
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover-preview
+          path: community/dist/covers/
+          retention-days: 7
+
+  publish:
     name: Build & publish dist/
-    needs: validate
-    # `always()` is required because `intake` is skipped on push events,
-    # and that "skipped" status would otherwise propagate down the
-    # `needs` chain (validate → build) and silently skip this job too,
-    # even though validate ran successfully via its own `if: always()`.
-    if: |
-      always() &&
-      needs.validate.result == 'success' &&
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main'
+    needs: lint
+    # Only deploy on push to main. Fork PRs never reach this job.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      # Needed to push the gh-pages branch.
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -158,3 +120,29 @@ jobs:
           user_name: "nyxastra-community-bot"
           user_email: "community-bot@gavinschneestudio.org"
           commit_message: "deploy: community/dist (${{ github.sha }})"
+
+      # Notify the marketing site repo (gavinschneestudio) that the
+      # community gallery has new artifacts to mirror. The marketing
+      # site reverse-syncs from gh-pages into its own repo so the
+      # production site (Azure SWA, accessible from China) can serve
+      # the gallery same-origin instead of relying on github.io
+      # (which is unreliable in China).
+      #
+      # The PAT only needs `Contents: Read and write` on the single
+      # `gavinschneestudio` repo. If this step ever fails (token
+      # rotated, repo renamed, etc.), the marketing site has its own
+      # hourly schedule + manual button as fallbacks, so we don't
+      # block the gh-pages deploy on it.
+      - name: Notify marketing site to resync
+        if: success()
+        continue-on-error: true
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GAVINSCHNEESTUDIO_DISPATCH_TOKEN }}
+          repository: GavinHarbus/gavinschneestudio
+          event-type: community-updated
+          client-payload: |
+            {
+              "source_sha": "${{ github.sha }}",
+              "source_run_id": "${{ github.run_id }}"
+            }

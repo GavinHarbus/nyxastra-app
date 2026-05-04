@@ -102,10 +102,11 @@ The gallery includes both the official starter pack and community-submitted temp
 NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welcome to contribute**. The full guide lives in [`community/CONTRIBUTING.md`](community/CONTRIBUTING.md); the short version:
 
 1. **Design** a prompt in NyxAstra with `{{variables}}`
-2. **Export** it — right-click the template, choose *Export as .nyxtemplate*
-3. **Submit** it — open a Pull Request that drops the file into [`community/submissions/`](community/submissions/), or [open a submission issue](https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml) and a maintainer will help.
+2. **Fill in the *Community Sharing* section** in the template editor (author, license, category)
+3. **Export** it — right-click the template, choose *Export…*
+4. **Submit** it — open a Pull Request that drops the file into [`community/templates/`](community/templates/), or [open a submission issue](https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml) and a maintainer will help.
 
-CI will lint the file, strip EXIF from the cover, unpack it into the source tree, and (after review) add it to the next gallery rebuild — credited to you under the license you choose.
+CI lints the file in a single round; a maintainer reviews, merges, and the next push to `main` rebuilds the gallery — credited to you under the license you choose.
 
 ---
 

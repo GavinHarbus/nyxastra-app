@@ -1,17 +1,15 @@
 """Lint checks that go beyond raw schema validation.
 
-These run on the *unpacked* representation (a `Template` from `unpack.py`),
-which is what's actually stored in the repo. They're the rules a maintainer
-would otherwise have to enforce by reading the diff.
-
-The contract: every check appends `ValidationIssue`s to a `ValidationResult`
-and returns nothing. They never raise; bad input shows up as an error issue.
+These work on either:
+  * raw bytes already decoded from `cover.dataBase64`, or
+  * the prompt body string,
+and append `ValidationIssue`s to a `ValidationResult`. They never
+raise — bad input shows up as an error issue.
 """
 from __future__ import annotations
 
 import io
 import re
-from pathlib import Path
 
 from PIL import Image, UnidentifiedImageError
 
@@ -24,7 +22,7 @@ from .schema import ValidationResult
 
 # Soft cap on cover dimensions. Anything larger is downscaled at build
 # time anyway; we only warn so authors know their input is being shrunk.
-MAX_COVER_LONG_EDGE_PX = 2048
+MAX_COVER_LONG_EDGE_PX  = 2048
 MAX_COVER_SHORT_EDGE_PX = 2048
 
 # Hard cap on raw bytes. Above this we reject the submission rather than
@@ -89,16 +87,6 @@ def lint_cover_bytes(cover_bytes: bytes, *, expected_format: str | None, r: Vali
             f"Cover is {w}x{h}; build will downscale to fit {MAX_COVER_LONG_EDGE_PX}px long edge.",
             "cover",
         )
-
-
-def lint_cover_file(cover_path: Path, r: ValidationResult) -> None:
-    """Same as `lint_cover_bytes` but reads from disk first."""
-    try:
-        data = cover_path.read_bytes()
-    except OSError as exc:
-        r.error("cover-unreadable", f"Cannot read cover file: {exc}", str(cover_path))
-        return
-    lint_cover_bytes(data, expected_format=cover_path.suffix.lstrip(".").lower(), r=r)
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -169,22 +157,3 @@ def _redact(s: str) -> str:
     """Truncate a matched secret for display, preserving the prefix so
     the author can locate it without us echoing the full value."""
     return (s[:6] + "…") if len(s) > 8 else s
-
-
-# ──────────────────────────────────────────────────────────────────────
-# Slug-collision check across the repo (called by the build script)
-# ──────────────────────────────────────────────────────────────────────
-
-def lint_slug_uniqueness(slugs: list[str], r: ValidationResult) -> None:
-    """Detect duplicate slugs across the entire `community/templates/` tree."""
-    seen: dict[str, int] = {}
-    for s in slugs:
-        seen[s] = seen.get(s, 0) + 1
-    for slug, count in seen.items():
-        if count > 1:
-            r.error(
-                "slug-collision",
-                f"Slug {slug!r} is used by {count} templates. Slugs must be unique — "
-                "rename one of the conflicting templates.",
-                "slug",
-            )
