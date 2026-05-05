@@ -78,7 +78,7 @@ Tag, rate, search, filter, batch export. Every image keeps its full generation m
 
 ### One-click prompt templates
 
-Don't start from a blank prompt. NyxAstra ships with **15 curated templates** covering cinematic portraits, pixel art, watercolor landscapes, product photography, logo design, and more. Each template has **fill-in variables** — just type your subject and hit Generate.
+Don't start from a blank prompt. NyxAstra ships with **12 curated templates** covering universal briefs (poster, infographic, logo, UI mockup, product hero, social post) plus six recipe-style starters — cinematic portraits, pixel art, watercolor landscapes, product photography, minimal logo, and an editorial narrative poster. Each template has **fill-in variables** — just type your subject and hit Generate.
 
 <p align="center">
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
@@ -90,9 +90,9 @@ The gallery includes both the official starter pack and community-submitted temp
 
 | | | |
 |:---:|:---:|:---:|
-| <img src="https://gavinschneestudio.org/images/nyxastra/templates/event-poster.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/infographic.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/logo-concept.jpg" width="200"> |
+| <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Event-Poster.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Infographic.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Logo-Concept.thumb.webp" width="200"> |
 | Event Poster | Infographic | Logo Concept |
-| <img src="https://gavinschneestudio.org/images/nyxastra/templates/product-hero.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/social-media.jpg" width="200"> | <img src="https://gavinschneestudio.org/images/nyxastra/templates/ui-mockup.jpg" width="200"> |
+| <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Product-Hero-Shot.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Social-Media-Post.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-UI-Mockup.thumb.webp" width="200"> |
 | Product Hero Shot | Social Media Post | UI Mockup |
 
 ---
