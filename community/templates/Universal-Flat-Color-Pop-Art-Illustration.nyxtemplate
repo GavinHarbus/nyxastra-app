@@ -2,7 +2,8 @@
   "body" : "You are designing a vibrant flat-color pop art illustration featuring a stylized character.\n\nCONTENT BRIEF\n- Character: {{character}}\n- Pose: {{pose}}\n- Backdrop: {{backdrop}}\n\nSTYLE DIRECTION\n- Genre / medium: Flat-color pop art illustration\n- Composition: Centered framing with the character occupying most of the canvas; minimal negative space\n- Lens / camera: N/A (illustrated medium)\n- Lighting: No directional lighting; flat color fills without shading\n- Color palette and grading: {{color_palette}}; bold and saturated colors with complementary contrasts\n- Texture / surface: Smooth and clean vector-like finish\n- Post-processing: None; emphasis on clean lines and flat fills\n- Mood: Playful, dynamic, youthful, and vibrant\n- References: Inspired by Japanese pop art, modern manga aesthetics, and bold graphic design styles\n\nDESIGN RULES\n- Aspect: 1:1 square (~1024×1024) suitable for social media or illustrations\n- Focus: The character must dominate the frame, with expressive poses and dynamic styling\n- Background: Single vivid color backdrop to ensure subject prominence\n\nAVOID\n- No realistic textures or gradients\n- No muted or desaturated colors\n- No cluttered or overly detailed backgrounds\n- No soft or blurry edges\n- No complex lighting effects\n- No photographic realism\n\nAdditional constraints: {{extra}}\n\n——————\nCharacter: {{character}}\nPose: {{pose}}\nBackdrop: {{backdrop}}\nColor palette: {{color_palette}}\nExtra notes: {{extra}}",
   "community" : {
     "author" : {
-      "name" : "Anonymous"
+      "name" : "Gavin Schnee",
+      "url": "https://x.com/Alaric4678"
     },
     "category" : "illustration",
     "license" : "CC-BY-4.0"
