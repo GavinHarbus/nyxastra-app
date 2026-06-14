@@ -1,0 +1,89 @@
+{
+  "schema": "nyxtemplate",
+  "version": 2,
+  "sourceApp": "NyxAstra",
+  "name": "Black and White Cinematic Layered Focus Portrait",
+  "folderName": "Photo & Portrait",
+  "tags": [
+    "black-and-white photography",
+    "cinematic",
+    "portrait",
+    "film texture",
+    "layered focus",
+    "motion blur",
+    "emotional portrait",
+    "image generation"
+  ],
+  "community": {
+    "author": {
+      "name": "Gavin Schnee",
+      "url": "https://x.com/Alaric4678"
+    },
+    "license": "CC-BY-4.0",
+    "category": "photo"
+  },
+  "parameterPreset": {
+    "format": "png",
+    "quality": "high",
+    "n": 1,
+    "size": {
+      "width": 1024,
+      "height": 1280
+    },
+    "background": "auto"
+  },
+  "variables": [
+    {
+      "name": "reference_photo",
+      "kind": "multiline",
+      "defaultValue": "",
+      "allowedValues": [],
+      "description": "Optional user-uploaded photo to use as the main subject reference. If provided, preserve the person's identity, facial structure, hairstyle, and natural expression."
+    },
+    {
+      "name": "main_subject_description",
+      "kind": "text",
+      "defaultValue": "East Asian adult, delicate facial features, wind-dragged dark hair, quiet distant mood",
+      "allowedValues": [],
+      "description": "Describe identity, ethnicity, facial features, hairstyle, age impression, and mood for the main subject."
+    },
+    {
+      "name": "outfit",
+      "kind": "enumeration",
+      "defaultValue": "black turtleneck",
+      "allowedValues": [
+        "black turtleneck",
+        "black wool coat",
+        "black trench coat",
+        "minimal dark outfit"
+      ],
+      "description": "Main subject outfit."
+    },
+    {
+      "name": "second_figure",
+      "kind": "enumeration",
+      "defaultValue": "foreground blurred profile",
+      "allowedValues": [
+        "foreground blurred profile",
+        "background blurred silhouette",
+        "reflected figure",
+        "motion-blurred close figure"
+      ],
+      "description": "How the second figure appears in the image."
+    },
+    {
+      "name": "scene",
+      "kind": "enumeration",
+      "defaultValue": "windy seashore",
+      "allowedValues": [
+        "windy seashore",
+        "foggy moor",
+        "empty coastal road",
+        "rooftop in strong wind",
+        "rainy street through glass"
+      ],
+      "description": "Scene setting."
+    }
+  ],
+  "body": "Create a vertical 4:5 black-and-white cinematic film portrait.\n\nIf a user reference photo is provided, use it as Image A: keep the main subject recognizably the same person, preserving identity, facial structure, hairstyle, age impression, and natural expression. If no photo is provided, use this description: {{main_subject_description}}.\n\nMain subject: adult person, {{main_subject_description}}, wearing {{outfit}}. Place them in {{scene}}. Add {{second_figure}} in dark clothing as a blurred emotional presence, never as a clear second main subject.\n\nUse layered focus rather than global blur. Keep the main subject’s facial center readable, especially the eyes, nose bridge, lips, and expression. Let wind, mist, rain, shallow depth of field, and slow-shutter motion affect hair, clothing edges, foreground, background, and frame edges.\n\nStyle: black-and-white film photography, old film scan grain, low-contrast grayscale, soft highlights, deep detailed shadows, imperfect arthouse framing, emotional distance, unresolved relationship tension.\n\nAvoid: identity change, generic AI beauty face, global soft focus, glossy commercial fashion look, clean studio lighting, sweet couple photo, plastic skin, color elements, text, logo, watermark.\n\nReference photo, if provided:\n{{reference_photo}}"
+}
