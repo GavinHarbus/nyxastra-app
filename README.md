@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/badge/Download-macOS-brightgreen?style=for-the-badge" alt="Download for macOS">
   </a>
   &nbsp;&nbsp;
-  <a href="https://github.com/bbkgl/NyxAstraApp-Win/releases/latest">
+  <a href="https://github.com/bbkgl/NyxAstraApp-Win/releases">
     <img src="https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge" alt="Download for Windows">
   </a>
   &nbsp;&nbsp;
@@ -144,7 +144,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ### Windows
 
-1. **Download** the latest Windows `.zip` from [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases/latest)
+1. **Download** the latest Windows `.zip` from [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases)
 2. **Extract** the package
 3. **Run** the top-level `NyxAstra.exe` and keep the bundled `app` folder next to it
 4. **Open** Settings and paste your OpenAI or Azure OpenAI API key
@@ -164,7 +164,7 @@ Special thanks to [@bbkgl](https://github.com/bbkgl) for building the WPF/.NET W
 
 - [Template Gallery](https://gavinschneestudio.org/nyxastra/templates/) — browse and download community templates
 - [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
-- [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases/latest) — download the Windows build
+- [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases) — download the Windows build
 - [Changelog](CHANGELOG.md) — what's new in each version
 - [FAQ](FAQ.md) — common questions answered
 - [Privacy Policy](PRIVACY.md) — the full details
