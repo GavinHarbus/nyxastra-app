@@ -157,7 +157,10 @@ jobs:
             --content-type "image/webp"
 
       # Keep an artifact copy for 30 days so we can grab a specific build
-      # from the Actions UI if we ever need to debug a regression.
+      # from the Actions UI if we ever need to debug a regression. This
+      # snapshot stays FULL (templates + covers) even when they're pruned
+      # from gh-pages below, so a specific build's heavy files remain
+      # recoverable (Blob is uploaded with --overwrite, i.e. not versioned).
       - name: Upload dist/ as workflow artifact
         uses: actions/upload-artifact@v4
         with:
@@ -165,9 +168,23 @@ jobs:
           path: community/dist/
           retention-days: 30
 
-      # Publish to the gh-pages branch so https://gavinharbus.github.io/
-      # nyxastra-app/ serves index.json + covers/ + templates/. The static
-      # gallery on gavinschneestudio.org fetches from this URL.
+      # When the heavy artifacts were uploaded to Azure Blob above,
+      # index.json already points at them by ABSOLUTE URL — so the copies
+      # bundled in dist/ are dead weight on gh-pages. Drop them so gh-pages
+      # only carries the small index.json (+ manifest.json), which is all
+      # the gavinschneestudio sync needs. MUST stay gated on the Blob
+      # origin: if it's unset (e.g. a fork), index.json still has RELATIVE
+      # urls and gh-pages MUST keep hosting these files for the gallery to
+      # resolve them.
+      - name: Strip Blob-hosted artifacts from the gh-pages payload
+        if: ${{ env.NYX_BLOB_BASE_URL != '' }}
+        run: rm -rf community/dist/templates community/dist/covers
+
+      # Publish to the gh-pages branch. When a Blob origin is configured
+      # this now serves only index.json + manifest.json (the heavy
+      # .nyxtemplate downloads + cover WebPs live on Azure Blob); without
+      # one it still serves the full set. The gavinschneestudio sync reads
+      # index.json from here.
       #
       # First-time setup (one-off, in repo Settings → Pages):
       #   Source: Deploy from a branch  ·  Branch: gh-pages  ·  Folder: / (root)
