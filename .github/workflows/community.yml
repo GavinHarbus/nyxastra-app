@@ -76,6 +76,9 @@ jobs:
     permissions:
       # Needed to push the gh-pages branch.
       contents: write
+      # Needed for the OIDC federated login to Azure (blob upload). No
+      # long-lived storage keys are stored in the repo.
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -89,8 +92,60 @@ jobs:
       - name: Install dependencies
         run: pip install -r community/scripts/requirements.txt
 
+      # Setting NYX_BLOB_BASE_URL makes build_community.py emit ABSOLUTE
+      # download/cover/thumbnail URLs (pointing at Azure Blob) inside
+      # index.json. The heavy .nyxtemplate downloads + cover WebPs are
+      # then uploaded to Blob below, so the marketing site's Azure Static
+      # Web App only has to host the (small) index.json and stays under
+      # its 250 MiB app-content cap. If the secret is unset, the build
+      # falls back to relative URLs (same-origin) automatically.
       - name: Build dist/
+        env:
+          NYX_BLOB_BASE_URL: ${{ secrets.NYX_BLOB_BASE_URL }}
         run: python3 community/scripts/build_community.py --build
+
+      # Authenticate to Azure via GitHub OIDC (no stored storage key).
+      # Requires a federated credential on the app registration bound to
+      # this repo, plus the three AZURE_* secrets. Skipped automatically
+      # if the Blob origin isn't configured (e.g. a fork without secrets),
+      # so the gh-pages deploy still works with relative same-origin URLs.
+      - name: Azure login (OIDC)
+        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Upload the heavy artifacts to Blob. --overwrite keeps re-runs
+      # idempotent; content-type is set so browsers download/render them
+      # correctly (WebP images render inline, .nyxtemplate downloads as
+      # a file via the gallery's download attribute). Auth mode 'login'
+      # uses the OIDC session above (needs 'Storage Blob Data Contributor'
+      # on the container).
+      - name: Upload template downloads to Azure Blob
+        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
+            --destination "${{ secrets.AZURE_BLOB_CONTAINER }}" \
+            --destination-path templates \
+            --source community/dist/templates \
+            --auth-mode login \
+            --overwrite \
+            --content-type "application/octet-stream"
+
+      - name: Upload covers to Azure Blob
+        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        run: |
+          az storage blob upload-batch \
+            --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
+            --destination "${{ secrets.AZURE_BLOB_CONTAINER }}" \
+            --destination-path covers \
+            --source community/dist/covers \
+            --auth-mode login \
+            --overwrite \
+            --content-type "image/webp"
 
       # Keep an artifact copy for 30 days so we can grab a specific build
       # from the Actions UI if we ever need to debug a regression.
