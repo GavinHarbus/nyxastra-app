@@ -28,6 +28,7 @@ import argparse
 import base64
 import io
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -74,6 +75,28 @@ SOURCE_APP_STAMP = "nyxastra-community"
 
 INDEX_SCHEMA         = "nyxastra-community-index"
 INDEX_SCHEMA_VERSION = 1
+
+# Optional CDN/Blob origin for the heavy artifacts (the per-template
+# `.nyxtemplate` downloads and the cover WebPs). When set, the emitted
+# index.json points `downloadUrl` / `coverUrl` / `thumbnailUrl` at
+# absolute URLs under this origin instead of paths relative to the
+# index. The marketing site's Azure Static Web App has a 250 MiB app-
+# content cap; the ~250 MB of `.nyxtemplate` downloads blow past it, so
+# CI uploads them to Azure Blob and sets this so the gallery loads them
+# cross-origin (the client's resolveUrl passes absolute http(s) URLs
+# through untouched). Unset (local dev) => relative URLs, same as before.
+BLOB_BASE_ENV = "NYX_BLOB_BASE_URL"
+
+
+def blob_base() -> str | None:
+    """Return the trailing-slash-free Blob/CDN base URL, or None.
+
+    Empty / whitespace-only env values are treated as unset so a blank
+    CI variable doesn't produce `https:///templates/...` garbage.
+    """
+    raw = (os.environ.get(BLOB_BASE_ENV) or "").strip()
+    return raw.rstrip("/") or None
+
 
 # Maintainer-only file. Contributors cannot mark themselves featured
 # — the only way a template lights up is for a maintainer to add its
@@ -237,6 +260,13 @@ def build_dist(parsed: list[dict]) -> None:
             print(f"      - {s}")
     featured_set = set(featured_slugs) & known_slugs
 
+    # When CI has uploaded the heavy artifacts to Azure Blob, this is the
+    # absolute origin they live under; index.json then points straight at
+    # them so the SWA stays under its 250 MiB cap. None => relative URLs.
+    base = blob_base()
+    if base:
+        print(f"  → Blob origin set; index URLs will be absolute under {base}")
+
     entries: list[dict[str, Any]] = []
 
     for item in parsed:
@@ -258,17 +288,23 @@ def build_dist(parsed: list[dict]) -> None:
             encoding="utf-8",
         )
 
-        # Optimized cover variants (always WebP for the gallery).
+        # Optimized cover variants (always WebP for the gallery). When a
+        # Blob origin is configured the URLs are absolute (loaded cross-
+        # origin from Azure Blob); otherwise they stay relative to the
+        # index for same-origin/local serving.
         cover_url = thumb_url = None
         if cover_bytes:
-            cover_url = f"covers/{slug}.webp"
-            thumb_url = f"covers/{slug}.thumb.webp"
+            cover_rel = f"covers/{slug}.webp"
+            thumb_rel = f"covers/{slug}.thumb.webp"
+            cover_url = f"{base}/{cover_rel}" if base else cover_rel
+            thumb_url = f"{base}/{thumb_rel}" if base else thumb_rel
             _emit_webp(cover_bytes, DIST_COVERS / f"{slug}.webp",
                        max_long_edge=COVER_LONG_EDGE, quality=WEBP_QUALITY_FULL)
             _emit_webp(cover_bytes, DIST_COVERS / f"{slug}.thumb.webp",
                        max_long_edge=THUMB_LONG_EDGE, quality=WEBP_QUALITY_THUMB)
 
         community = doc.get("community") or {}
+        download_rel = f"templates/{slug}{NYXTEMPLATE_EXT}"
         entries.append({
             "slug": slug,
             "title": doc.get("name"),
@@ -280,7 +316,7 @@ def build_dist(parsed: list[dict]) -> None:
             "promptBody": doc.get("body"),
             "variables": doc.get("variables", []),
             "parameterPreset": doc.get("parameterPreset"),
-            "downloadUrl": f"templates/{slug}{NYXTEMPLATE_EXT}",
+            "downloadUrl": f"{base}/{download_rel}" if base else download_rel,
             "downloadSize": out_single.stat().st_size,
             "coverUrl": cover_url,
             "thumbnailUrl": thumb_url,
