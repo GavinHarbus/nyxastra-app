@@ -79,6 +79,16 @@ jobs:
       # Needed for the OIDC federated login to Azure (blob upload). No
       # long-lived storage keys are stored in the repo.
       id-token: write
+    # The `secrets` context is NOT allowed inside step `if:` conditions
+    # (GitHub rejects the workflow with "Unrecognized named-value:
+    # 'secrets'"). So we surface the Blob origin as a job-level env var —
+    # `env` IS allowed in `if:` — and gate the Azure steps on it. Empty
+    # when the secret is unset (e.g. forks) => those steps skip and the
+    # build falls back to relative same-origin URLs. Every step in the
+    # job also inherits this env, which is how build_community.py picks
+    # up NYX_BLOB_BASE_URL.
+    env:
+      NYX_BLOB_BASE_URL: ${{ secrets.NYX_BLOB_BASE_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -98,10 +108,9 @@ jobs:
       # then uploaded to Blob below, so the marketing site's Azure Static
       # Web App only has to host the (small) index.json and stays under
       # its 250 MiB app-content cap. If the secret is unset, the build
-      # falls back to relative URLs (same-origin) automatically.
+      # falls back to relative URLs (same-origin) automatically. The env
+      # value is inherited from the job-level `env` block above.
       - name: Build dist/
-        env:
-          NYX_BLOB_BASE_URL: ${{ secrets.NYX_BLOB_BASE_URL }}
         run: python3 community/scripts/build_community.py --build
 
       # Authenticate to Azure via GitHub OIDC (no stored storage key).
@@ -110,7 +119,7 @@ jobs:
       # if the Blob origin isn't configured (e.g. a fork without secrets),
       # so the gh-pages deploy still works with relative same-origin URLs.
       - name: Azure login (OIDC)
-        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        if: ${{ env.NYX_BLOB_BASE_URL != '' }}
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -124,7 +133,7 @@ jobs:
       # uses the OIDC session above (needs 'Storage Blob Data Contributor'
       # on the container).
       - name: Upload template downloads to Azure Blob
-        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        if: ${{ env.NYX_BLOB_BASE_URL != '' }}
         run: |
           az storage blob upload-batch \
             --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
@@ -136,7 +145,7 @@ jobs:
             --content-type "application/octet-stream"
 
       - name: Upload covers to Azure Blob
-        if: ${{ secrets.NYX_BLOB_BASE_URL != '' }}
+        if: ${{ env.NYX_BLOB_BASE_URL != '' }}
         run: |
           az storage blob upload-batch \
             --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
