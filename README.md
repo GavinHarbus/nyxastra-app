@@ -96,9 +96,9 @@ The gallery includes both the official starter pack and community-submitted temp
 
 | | | |
 |:---:|:---:|:---:|
-| <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Event-Poster.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Infographic.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Logo-Concept.thumb.webp" width="200"> |
+| <img src="assets/gallery/Universal-Event-Poster.thumb.webp" width="200"> | <img src="assets/gallery/Universal-Infographic.thumb.webp" width="200"> | <img src="assets/gallery/Universal-Logo-Concept.thumb.webp" width="200"> |
 | Event Poster | Infographic | Logo Concept |
-| <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Product-Hero-Shot.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-Social-Media-Post.thumb.webp" width="200"> | <img src="https://gavinharbus.github.io/nyxastra-app/covers/Universal-UI-Mockup.thumb.webp" width="200"> |
+| <img src="assets/gallery/Universal-Product-Hero-Shot.thumb.webp" width="200"> | <img src="assets/gallery/Universal-Social-Media-Post.thumb.webp" width="200"> | <img src="assets/gallery/Universal-UI-Mockup.thumb.webp" width="200"> |
 | Product Hero Shot | Social Media Post | UI Mockup |
 
 ---
