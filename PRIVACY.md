@@ -29,7 +29,7 @@ All app data is stored locally on your Mac within the app sandbox:
 
 ### iPad version (coming soon)
 
-The upcoming iPad version stores API keys in the device-only system Keychain and keeps app data in its local app container. API keys do not sync to iCloud. Generated images are exported through the system share sheet.
+The upcoming iPad version stores API keys in the device-only system Keychain and keeps app data in its local app container. API keys do not sync to iCloud. The system Photos picker provides access only to images you select, and saving generated images uses add-only Photos permission.
 
 ## Third-Party Services
 
