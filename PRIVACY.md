@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated: August 24, 2026**
+**Last updated: August 29, 2026**
 
 NyxAstra is designed with privacy as a core principle. This policy explains what data the app handles and how.
 
@@ -26,6 +26,10 @@ All app data is stored locally on your Mac within the app sandbox:
 - **Generation history** — stored in a local SwiftData database.
 - **Templates** — stored in a local SwiftData database.
 - **Preferences** — stored in standard macOS UserDefaults.
+
+### iPad version (coming soon)
+
+The upcoming iPad version stores API keys in the device-only system Keychain and keeps app data in its local app container. API keys do not sync to iCloud. Generated images are exported through the system share sheet.
 
 ## Third-Party Services
 
