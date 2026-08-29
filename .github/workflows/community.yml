@@ -142,7 +142,8 @@ jobs:
             --source community/dist/templates \
             --auth-mode login \
             --overwrite \
-            --content-type "application/octet-stream"
+            --content-type "application/octet-stream" \
+            --content-disposition "attachment"
 
       - name: Upload covers to Azure Blob
         if: ${{ env.NYX_BLOB_BASE_URL != '' }}
