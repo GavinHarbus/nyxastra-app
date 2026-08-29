@@ -11,6 +11,9 @@ Yes. NyxAstra is free to download and use.
 **Do I need my own API key?**
 Yes. You need an API key from [OpenAI](https://platform.openai.com/) or an [Azure OpenAI](https://azure.microsoft.com/en-us/products/ai-services/openai-service) deployment. NyxAstra does not provide API access — it connects to your own account.
 
+**What if NyxAstra is unavailable in my region's Mac App Store?**
+Download the macOS DMG from [GitHub Releases](https://github.com/GavinHarbus/nyxastra-app/releases). This includes regions such as mainland China where the App Store listing is currently unavailable.
+
 ## Models & Capabilities
 
 **Which models are supported?**
@@ -45,6 +48,9 @@ Double-check your API key in Settings. For Azure OpenAI, verify that your endpoi
 
 **Can I use NyxAstra on Windows or Linux?**
 Not currently. NyxAstra is a native macOS app built with SwiftUI and requires macOS 14.0 (Sonoma) or later.
+
+**Is there an iPad version?**
+An iPadOS 17+ version is coming soon. It uses the device-only system Keychain for credentials, supports template files, and exports through the system share sheet. There is no public iPad download yet.
 
 ## Contact
 
