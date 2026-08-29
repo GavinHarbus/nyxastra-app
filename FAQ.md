@@ -50,7 +50,7 @@ Double-check your API key in Settings. For Azure OpenAI, verify that your endpoi
 Not currently. NyxAstra is a native macOS app built with SwiftUI and requires macOS 14.0 (Sonoma) or later.
 
 **Is there an iPad version?**
-An iPadOS 17+ version is coming soon. It uses the device-only system Keychain for credentials, supports template files, and exports through the system share sheet. There is no public iPad download yet.
+An iPadOS 17+ version is coming soon. It uses the device-only system Keychain for credentials, supports template files, and saves generated images to Photos with add-only permission. There is no public iPad download yet.
 
 ## Contact
 
