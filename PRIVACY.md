@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated: August 29, 2026**
+**Last updated: August 30, 2026**
 
 NyxAstra is designed with privacy as a core principle. This policy explains what data the app handles and how.
 
@@ -19,17 +19,17 @@ These requests contain your prompt, generation parameters, and reference images 
 
 ## Local Storage
 
-All app data is stored locally on your Mac within the app sandbox:
+All app data is stored locally on your device within the app sandbox:
 
 - **API keys** — encrypted with AES-256-GCM using a randomly generated local master key. Never stored in plaintext.
 - **Generated images** — saved as PNG or JPEG files in the app's Library directory.
 - **Generation history** — stored in a local SwiftData database.
 - **Templates** — stored in a local SwiftData database.
-- **Preferences** — stored in standard macOS UserDefaults.
+- **Preferences** — stored in standard UserDefaults.
 
-### iPad version (coming soon)
+### iPadOS
 
-The upcoming iPad version stores API keys in the device-only system Keychain and keeps app data in its local app container. API keys do not sync to iCloud. The system Photos picker provides access only to images you select, and saving generated images uses add-only Photos permission.
+On iPad, API keys are encrypted with AES-256-GCM and stored in the local app sandbox, as on macOS. The system Photos picker gives NyxAstra access only to images you select. Sharing or saving generated images is handled by the system share sheet; NyxAstra does not request direct access to your Photos library.
 
 ## Third-Party Services
 
@@ -37,7 +37,7 @@ NyxAstra has **zero bundled third-party SDK dependencies**. It contacts no third
 
 ## Data Deletion
 
-You can delete individual generations and templates in NyxAstra, remove provider credentials in Settings, and disable AI provider requests under Data & Privacy. Files exported or saved to a folder you selected remain there until you delete them. To remove all remaining sandbox data after uninstalling the app, delete NyxAstra's container from your user Library.
+You can delete individual generations and templates in NyxAstra, remove provider credentials in Settings, and disable AI provider requests under Data & Privacy. Files exported or saved outside the app remain there until you delete them. On iPad, deleting NyxAstra removes its local app container. On macOS, you can remove any remaining sandbox data by deleting NyxAstra's container from your user Library.
 
 ## Contact
 
