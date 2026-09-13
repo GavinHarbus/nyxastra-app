@@ -6,16 +6,16 @@
 
 <p align="center">
   <strong>The AI image studio that stays on your device.</strong><br>
-  Generate stunning images with GPT-Image-2 — no cloud, no subscriptions, no data leaves your machine.
+  Native on Mac, iPhone, iPad, and Windows — your key, local storage, no NyxAstra backend.
 </p>
 
 <p align="center">
   <a href="https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12">
-    <img src="https://img.shields.io/badge/Mac_App_Store-Get_NyxAstra-brightgreen?style=for-the-badge" alt="Get NyxAstra on the Mac App Store">
+    <img src="https://img.shields.io/badge/App_Store-Mac%2C_iPhone_%26_iPad-brightgreen?style=for-the-badge" alt="Get NyxAstra for Mac, iPhone, and iPad on the App Store">
   </a>
   &nbsp;&nbsp;
   <a href="https://github.com/GavinHarbus/nyxastra-app/releases">
-    <img src="https://img.shields.io/badge/Download-macOS-brightgreen?style=for-the-badge" alt="Download for macOS">
+    <img src="https://img.shields.io/badge/Earlier_DMG-macOS-lightgrey?style=for-the-badge" alt="Download the earlier macOS DMG">
   </a>
   &nbsp;&nbsp;
   <a href="https://github.com/bbkgl/NyxAstraApp-Win/releases">
@@ -30,7 +30,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/macOS-14.0%2B-blue?style=flat-square" alt="macOS 14.0+">
   <img src="https://img.shields.io/badge/Windows-x64-blue?style=flat-square" alt="Windows x64">
-  <img src="https://img.shields.io/badge/iPadOS-Coming_soon-lightgrey?style=flat-square" alt="iPad version coming soon">
+  <img src="https://img.shields.io/badge/iOS%2FiPadOS-17.0%2B-blue?style=flat-square" alt="iOS and iPadOS 17.0+">
   <img src="https://img.shields.io/badge/Price-Free-green?style=flat-square" alt="Free">
   <img src="https://img.shields.io/badge/Telemetry-None-purple?style=flat-square" alt="No Telemetry">
   <img src="https://img.shields.io/github/downloads/GavinHarbus/nyxastra-app/total?style=flat-square&label=macOS%20Downloads" alt="macOS Downloads">
@@ -55,8 +55,8 @@
 Most AI image tools lock you into a web app, charge monthly fees, and route everything through their servers. **NyxAstra is different:**
 
 - **Your API key, your control.** Connect your own OpenAI or Azure OpenAI account. No middleman, no markup.
-- **Nothing leaves your device.** Zero telemetry. Zero analytics. Images and credentials are stored locally with encryption.
-- **Desktop experience on macOS and Windows.** The macOS app is built with SwiftUI; the Windows port is built with WPF and .NET 10 as a self-contained x64 package. A touch-first iPad version is coming soon.
+- **Local-first by design.** Zero telemetry and zero analytics. Credentials, history, templates, and generated images stay on-device; generation content is sent directly to the OpenAI or Azure OpenAI endpoint you configure.
+- **Native across platforms.** SwiftUI on Mac, iPhone, and iPad; WPF and .NET 10 on Windows. Apple layouts adapt from compact iPhone screens to iPad and Mac.
 - **Free.** No trials, no feature gates, no subscriptions.
 
 ---
@@ -65,7 +65,15 @@ Most AI image tools lock you into a web app, charge monthly fees, and route ever
 
 ### Generate up to 4K images
 
-Full parameter control — quality, size, format, transparent backgrounds, moderation. Supports **gpt-image-2**, gpt-image-1.5, gpt-image-1, and gpt-image-1-mini.
+Full parameter control — quality, size, format, transparent backgrounds, and moderation. Model support depends on the release channel:
+
+| Release | Supported models |
+|---|---|
+| **Apple app v1.1+** (Mac, iPhone, iPad) | `gpt-image-2.5-sunburst`, `gpt-image-2.5-flare`, `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
+| **Existing direct-download DMG** | `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
+| **Windows** | `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
+
+[GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation#size-and-quality-options) adds `xhigh` and `max` quality settings in Apple app v1.1. The existing GitHub DMG is intentionally unchanged and does not include GPT Image 2.5 support.
 
 <p align="center">
   <img src="assets/screenshots/generate.png" width="600" alt="Generation interface">
@@ -97,7 +105,7 @@ Don't start from a blank prompt. NyxAstra ships with **12 curated templates** co
 
 **Browse the full gallery → [gavinschneestudio.org/nyxastra/templates](https://gavinschneestudio.org/nyxastra/templates/)**
 
-The gallery includes both the official starter pack and community-submitted templates. Click *Download* on any card to get the `.nyxtemplate` file. On macOS, double-click it to import into NyxAstra. On Windows, import it from the Templates workspace with the import button. On iPad, opening the file will import it when the iPad version ships.
+The gallery includes both the official starter pack and community-submitted templates. Click *Download* on any card to get the `.nyxtemplate` file. On Mac, iPhone, or iPad, open the file with NyxAstra to import it. On Windows, import it from the Templates workspace with the import button.
 
 | | | |
 |:---:|:---:|:---:|
@@ -126,8 +134,8 @@ CI lints the file in a single round; a maintainer reviews, merges, and the next 
 | | |
 |---|---|
 | **Network** | Requests go only to the OpenAI / Azure endpoint *you* configure. Nothing else. |
-| **Credentials** | Encrypted locally and never stored in plaintext: AES-256-GCM on macOS, Windows DPAPI on Windows. The upcoming iPad version uses the device-only system Keychain. |
-| **Storage** | App data stays on your device: the macOS app sandbox on macOS, `%LOCALAPPDATA%\NyxAstra` on Windows, and the local app container on iPad. |
+| **Credentials** | Stored locally: AES-256-GCM on macOS, Windows DPAPI on Windows, and the device-only system Keychain on iPhone and iPad. |
+| **Storage** | App data stays on your device: the macOS app sandbox, `%LOCALAPPDATA%\NyxAstra` on Windows, or the local app container on iPhone and iPad. |
 | **Telemetry** | None. No analytics, no crash reporting, no phone-home. |
 | **Backend** | No NyxAstra server. The app talks only to the provider endpoint you configure. |
 
@@ -139,9 +147,9 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ### macOS
 
-NyxAstra is also available from the [Mac App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) in supported regions. The direct DMG remains available for other regions, including mainland China.
+NyxAstra is available from the [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) in supported regions. The existing direct DMG remains available for other regions, including mainland China; it is an earlier preview and does not include GPT Image 2.5 support.
 
-1. **Download** the latest `.dmg` from [macOS Releases](https://github.com/GavinHarbus/nyxastra-app/releases)
+1. **Download** the earlier preview `.dmg` from [macOS Releases](https://github.com/GavinHarbus/nyxastra-app/releases)
 2. **Drag** NyxAstra to your Applications folder
 3. **Open** NyxAstra and go to Settings
 4. **Paste** your OpenAI or Azure OpenAI API key
@@ -159,9 +167,9 @@ NyxAstra is also available from the [Mac App Store](https://apps.apple.com/us/ap
 
 > **Windows requirements:** Windows x64 and your own API key from [OpenAI](https://platform.openai.com/) or [Azure OpenAI](https://azure.microsoft.com/en-us/products/ai-services/openai-service). The release package is self-contained and includes the bundled .NET/WPF runtime; you do not need the .NET SDK to run it.
 
-### iPad
+### iPhone and iPad
 
-A touch-first iPadOS 17+ version is coming soon. There is no public iPad download yet.
+Install NyxAstra from the [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12). The universal Apple app requires iOS/iPadOS 17 or later and uses layouts tailored to both iPhone and iPad.
 
 ---
 
@@ -174,7 +182,7 @@ Special thanks to [@bbkgl](https://github.com/bbkgl) for building the WPF/.NET W
 ## More
 
 - [Template Gallery](https://gavinschneestudio.org/nyxastra/templates/) — browse and download community templates
-- [Mac App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) — available in supported regions
+- [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) — Mac, iPhone, and iPad in supported regions
 - [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
 - [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases) — download the Windows build
 - [Changelog](CHANGELOG.md) — what's new in each version
