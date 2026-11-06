@@ -1,5 +1,5 @@
 {
-  "body" : "Create a highly stylized Japanese anime silhouette illustration of {{character}}. If a character reference image is provided, use it as the primary visual reference.\n\nFaithfully preserve the character's recognizable features, including hairstyle, hair color, signature accessories, clothing, and any distinctive physical traits. Adapt the pose to suit the character's personality and overall design.\n\nSimplify the hair into smooth, flowing shapes with a moderate number of layered locks. Keep enough detail to preserve the original hairstyle while avoiding tangled strands, excessive curls, tiny wisps, and messy flyaways.\n\nUse a minimalist Japanese graphic poster style, combining anime silhouette art, paper-cut aesthetics, and clean vector-like rendering. Construct the image with large solid color shapes, crisp edges, sharp geometric shadows, minimal outlines, and expressive negative space.\n\nPreserve the character's original color palette and use strong tonal contrast. Simplify clothing and accessories into clean geometric forms while retaining their most recognizable details. Use a solid dark background to emphasize the silhouette.\n\nNo realistic textures, soft gradients, painterly shading, 3D rendering, excessive linework, cluttered hair, unwanted character features, or unnecessary details.\n\nAdditional instructions (if any, while preserving the fully hidden eyes, simplified hair, solid color shapes, and solid dark background): {{extra}}",
+  "body" : "Create a highly stylized Japanese anime graphic portrait of {{character}}. If a character reference image is provided, use it as the primary visual reference.\n\nFaithfully preserve the character's recognizable features, including hairstyle, hair color, facial features, signature accessories, clothing, and distinctive physical traits. Adapt the pose and expression to reflect the character's personality and overall design.\n\nClearly reveal the character's facial features. The eyes, eyebrows, nose, and mouth must be visible and recognizable. Do not obscure the eyes with shadows, hair, masks, or silhouette shapes. Preserve the character's signature eye shape and facial characteristics while simplifying them into a clean anime graphic style.\n\nSimplify the hair into smooth, flowing shapes with a moderate number of layered locks. Retain the original hairstyle's defining structure and recognizable details while avoiding tangled strands, excessive curls, tiny wisps, and messy flyaways.\n\nUse a minimalist Japanese graphic poster aesthetic, combining anime illustration, paper-cut aesthetics, and clean vector-like rendering. Construct the artwork using large, solid color shapes, crisp edges, sharp geometric shadows, minimal outlines, and expressive negative space.\n\nPreserve the character's original color palette and use strong tonal contrast. Simplify clothing and accessories into clean geometric forms while retaining their most recognizable details. Use a solid dark background to create a striking contrast with the character and emphasize the overall graphic composition.\n\nAvoid realistic textures, soft gradients, painterly shading, 3D rendering, excessive linework, cluttered hair, overly detailed facial rendering, obscured facial features, visible text, typography, lettering, logos, watermarks, and unnecessary decorative elements.\n\nAdd a small handwritten artist signature: \"{{signature}}\"\n\n{{extra}}",
   "community" : {
     "author" : {
       "name" : "mio",
@@ -53,6 +53,14 @@
       "description" : "Extra note（可选）：补充姿态、服装或构图要求；保持头发完全遮眼、极简色块与纯色深色背景。",
       "kind" : "multiline",
       "name" : "extra"
+    },
+    {
+      "allowedValues" : [
+
+      ],
+      "defaultValue" : "Gavin Schnee",
+      "kind" : "text",
+      "name" : "signature"
     }
   ],
   "version" : 2
