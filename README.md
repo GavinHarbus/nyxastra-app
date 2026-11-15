@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The AI image studio that stays on your device.</strong><br>
-  Native on Mac, iPhone, iPad, and Windows — your key, local storage, no NyxAstra backend.
+  Native on Mac, iPhone, iPad, and Windows — your key, local image and template storage.
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
   </a>
   &nbsp;&nbsp;
   <a href="https://gavinschneestudio.org/nyxastra/templates/">
-    <img src="https://img.shields.io/badge/Template_Gallery-Browse_online-orange?style=for-the-badge" alt="Template Gallery">
+    <img src="https://img.shields.io/badge/Community_Templates-Browse_online-orange?style=for-the-badge" alt="Community Templates">
   </a>
 </p>
 
@@ -103,9 +103,11 @@ Don't start from a blank prompt. NyxAstra ships with **12 curated templates** co
   <img src="assets/screenshots/usetemplate.png" width="600" alt="Template workflow">
 </p>
 
-**Browse the full gallery → [gavinschneestudio.org/nyxastra/templates](https://gavinschneestudio.org/nyxastra/templates/)**
+**Browse Community Templates → [gavinschneestudio.org/nyxastra/templates](https://gavinschneestudio.org/nyxastra/templates/)**
 
-The gallery includes both the official starter pack and community-submitted templates. Click *Download* on any card to get the `.nyxtemplate` file. On Mac, iPhone, or iPad, open the file with NyxAstra to import it. On Windows, import it from the Templates workspace with the import button.
+Community Templates is the public website for free sharing and contributions, including the official starter pack and community submissions. Each template credits its author and carries its own license. Download a `.nyxtemplate` file from its detail page. On Mac, iPhone, or iPad, open the file with NyxAstra to import it. On Windows, import it from the Templates workspace with the import button.
+
+**Discover** is the separate curated catalog inside NyxAstra for Mac, for official releases and approved creators. It includes free and paid templates, with purchases and recovery in the Mac App Store edition. Open it from the Discover sidebar entry. The globe button in **Templates** opens Community Templates on the web; Templates remains your personal workspace for using, editing and organizing files from either source. Image-generation fees are separate from template downloads or purchases.
 
 | | | |
 |:---:|:---:|:---:|
@@ -126,6 +128,7 @@ NyxAstra templates are shareable `.nyxtemplate` files — and **everyone is welc
 4. **Submit** it — open a Pull Request that drops the file into [`community/templates/`](community/templates/), or [open a submission issue](https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml) and a maintainer will help.
 
 CI lints the file in a single round; a maintainer reviews, merges, and the next push to `main` rebuilds the gallery — credited to you under the license you choose.
+Community contributions are free to download and do not require approved-creator status. Inclusion in the app's Discover catalog is a separate selection process; a community submission does not automatically publish there.
 
 ---
 
@@ -133,11 +136,11 @@ CI lints the file in a single round; a maintainer reviews, merges, and the next 
 
 | | |
 |---|---|
-| **Network** | Requests go only to the OpenAI / Azure endpoint *you* configure. Nothing else. |
+| **Network** | Generation requests go to the OpenAI / Azure endpoint *you* configure. The Mac app also uses NyxAstra services for optional accounts and Discover, and Apple services for App Store purchases. |
 | **Credentials** | Stored locally: AES-256-GCM on macOS, Windows DPAPI on Windows, and the device-only system Keychain on iPhone and iPad. |
 | **Storage** | App data stays on your device: the macOS app sandbox, `%LOCALAPPDATA%\NyxAstra` on Windows, or the local app container on iPhone and iPad. |
 | **Telemetry** | None. No analytics, no crash reporting, no phone-home. |
-| **Backend** | No NyxAstra server. The app talks only to the provider endpoint you configure. |
+| **Backend** | The Mac app uses a NyxAstra backend for accounts, curated template delivery and purchase verification. Image generation remains with your chosen provider. |
 
 Read the full [Privacy Policy](PRIVACY.md).
 
@@ -181,7 +184,7 @@ Special thanks to [@bbkgl](https://github.com/bbkgl) for building the WPF/.NET W
 
 ## More
 
-- [Template Gallery](https://gavinschneestudio.org/nyxastra/templates/) — browse and download community templates
+- [Community Templates](https://gavinschneestudio.org/nyxastra/templates/) — free downloads, author credits and community contributions
 - [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) — Mac, iPhone, and iPad in supported regions
 - [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
 - [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases) — download the Windows build

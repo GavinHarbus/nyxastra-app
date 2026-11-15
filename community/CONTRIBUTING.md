@@ -2,6 +2,11 @@
 
 Thanks for sharing! Submitting a community template takes a few minutes.
 
+This guide is for the public **Community Templates** website: free downloads with author credit
+and a license chosen by the contributor. Anyone can submit for maintainer review. The app's
+**Discover** catalog has a separate selection process for official releases and approved
+creators; contributing here does not grant access to publish in Discover.
+
 ---
 
 ## Path A — submit via Pull Request (recommended)
@@ -84,7 +89,7 @@ A maintainer will review for content policy, quality, and whether it
 duplicates an existing template. We may suggest small edits or
 adjustments. Once merged, the gallery is rebuilt automatically on the
 next push to `main` and your template appears at
-`https://gavinharbus.github.io/nyxastra-app/`.
+`https://gavinschneestudio.org/nyxastra/templates/`.
 
 ---
 
@@ -94,7 +99,7 @@ If you don't use git, [open an issue using the **Submit a template**
 template][issue-template] and attach your `.nyxtemplate` file. A
 maintainer will create the Pull Request for you.
 
-[issue-template]: https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_issue.yml
+[issue-template]: https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml
 
 ---
 
