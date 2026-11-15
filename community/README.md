@@ -1,17 +1,25 @@
 # NyxAstra Community Templates
 
 > Community-maintained prompt templates for [NyxAstra](https://gavinschneestudio.org/products/nyxastra.html).
-> Browse the gallery at **<https://gavinschneestudio.org/nyxastra/templates/>**.
+> Browse Community Templates at **<https://gavinschneestudio.org/nyxastra/templates/>**.
 
 This directory holds the **source of truth** for every template that ships
 in the public gallery — both the official starter pack and contributions
 from the community.
 
+All templates on this website are free to download. Each credits its author and declares its
+own license; free download does not remove the license's conditions. Anyone can contribute
+through a pull request or submission issue, subject to maintainer review.
+
+The app's **Discover** catalog is separate: it features official releases and approved creators,
+and can include both free and paid templates. Community submissions and featured status here
+do not automatically publish a template to Discover or grant creator publishing permissions.
+
 ---
 
 ## How it works
 
-```
+```text
 community/
 ├── templates/                  ← Source: one .nyxtemplate file per template
 │   └── <slug>.nyxtemplate      ← Self-contained: prompt + variables + cover + community block
@@ -54,7 +62,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. Short version:
 If you don't use git, [open an issue][issue-template] with the
 `.nyxtemplate` attached and a maintainer will help you submit it.
 
-[issue-template]: https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_issue.yml
+[issue-template]: https://github.com/GavinHarbus/nyxastra-app/issues/new?template=template_submission.yml
 
 ---
 
