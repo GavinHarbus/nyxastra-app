@@ -39,6 +39,8 @@ directly by NyxAstra. It carries the prompt body, variables, parameter
 preset, an embedded base64 cover image, **and a small `community` block**
 with just three things: author, license, and category.
 
+Supported exports: v2 for raster recipes, v3 for SVG and v4 for GIF. Complexity and animation timing travel in the parameter preset. Covers remain static PNG/JPEG/WebP images. Downloads preserve each source document's supported version instead of upgrading every file to v4; each gallery index entry records its own templateSchemaVersion. The index-level templateSchemaVersion is the pipeline's maximum, not a requirement for every download.
+
 The filename minus `.nyxtemplate` is the slug — contributors pick it
 once, and CI never rewrites or moves the file. One PR adds one file and
 gets one CI round; no bot rewrites are needed.
@@ -82,6 +84,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r scripts/requirements.txt
 
 # Run all checks against every template in `community/templates/`
+python3 -m unittest discover -s scripts/tests
 python3 scripts/build_community.py --check
 
 # Build the dist/ artifacts (index.json, single-file downloads, optimized covers)

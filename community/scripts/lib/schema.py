@@ -1,9 +1,9 @@
-"""Schema validation for community `.nyxtemplate` files (v2).
+"""Schema validation for community `.nyxtemplate` files (v2–v4).
 
 The community pipeline consumes a flat directory of single-file
 `.nyxtemplate` documents at `community/templates/*.nyxtemplate`.
 Every file is the same JSON shape NyxAstra writes when the user picks
-"Export…" — schema=`nyxtemplate`, version=2, with an embedded
+"Export…" — schema=`nyxtemplate`, version=2/3/4, with an embedded
 `community` block carrying author / license / category / locale /
 models / nsfw.
 
@@ -30,11 +30,13 @@ from urllib.parse import urlsplit
 
 TEMPLATE_SCHEMA              = "nyxtemplate"
 TEMPLATE_SCHEMA_MIN_VERSION  = 2
-TEMPLATE_SCHEMA_MAX_VERSION  = 2
+TEMPLATE_SCHEMA_MAX_VERSION  = 4
 
 VALID_VARIABLE_KINDS = {"text", "multiline", "enumeration", "number"}
 VALID_IMAGE_FORMATS  = {"png", "jpeg", "webp"}
-VALID_QUALITIES      = {"auto", "low", "medium", "high"}
+VALID_OUTPUT_FORMATS = VALID_IMAGE_FORMATS | {"svg", "gif"}
+VALID_QUALITIES      = {"auto", "low", "medium", "high", "xhigh", "max"}
+VALID_COMPLEXITIES  = {"low", "medium", "high"}
 VALID_BACKGROUNDS    = {"auto", "opaque", "transparent"}
 
 # Canonical category list. Expanded only via PR + maintainer review so
@@ -133,8 +135,17 @@ class ValidationResult:
 # are not accepted as community submissions; one PR = one template).
 # ──────────────────────────────────────────────────────────────────────
 
+def required_template_version(preset: Any) -> int:
+    """Minimum reader version for these settings; Complexity is optional in v2."""
+    if not isinstance(preset, dict):
+        return 2
+    if preset.get("format") == "gif" or any(preset.get(k) is not None for k in ("frameCount", "frameDurationMS")):
+        return 4
+    return 3 if preset.get("format") == "svg" else 2
+
+
 def validate_nyxtemplate(doc: Any, *, require_community: bool = True) -> ValidationResult:
-    """Validate a parsed `.nyxtemplate` JSON document (v2, single template).
+    """Validate a parsed `.nyxtemplate` JSON document (v2–v4, single template).
 
     Files placed into `community/templates/` are the public-gallery
     source of truth, so by default the embedded `community` block is
@@ -159,7 +170,7 @@ def validate_nyxtemplate(doc: Any, *, require_community: bool = True) -> Validat
         return r
 
     version = doc.get("version")
-    if not isinstance(version, int):
+    if type(version) is not int:
         r.error("missing-version", "Top-level `version` must be an integer.", "version")
     elif version < TEMPLATE_SCHEMA_MIN_VERSION:
         r.error(
@@ -249,6 +260,8 @@ def validate_nyxtemplate(doc: Any, *, require_community: bool = True) -> Validat
     preset = doc.get("parameterPreset")
     if preset is not None:
         _validate_parameter_preset(preset, r)
+        if type(version) is int and version < required_template_version(preset):
+            r.error("preset-version", "Template version does not support its generation preset. Re-export from a recent NyxAstra build.", "version")
 
     # Cover
     cover = doc.get("cover")
@@ -256,7 +269,8 @@ def validate_nyxtemplate(doc: Any, *, require_community: bool = True) -> Validat
         if not isinstance(cover, dict):
             r.error("cover-not-object", "`cover` must be an object.", "cover")
         else:
-            fmt = (cover.get("format") or "").lower()
+            raw_format = cover.get("format")
+            fmt = raw_format.lower() if isinstance(raw_format, str) else None
             if fmt not in VALID_IMAGE_FORMATS:
                 r.error(
                     "cover-bad-format",
@@ -288,46 +302,44 @@ def _validate_parameter_preset(preset: Any, r: ValidationResult) -> None:
     if not isinstance(preset, dict):
         r.error("preset-not-object", "`parameterPreset` must be an object.", "parameterPreset")
         return
-    if "quality" in preset and preset["quality"] not in VALID_QUALITIES:
-        r.error(
-            "preset-bad-quality",
-            f"`quality` must be one of {sorted(VALID_QUALITIES)}; got {preset['quality']!r}.",
-            "parameterPreset.quality",
-        )
-    if "format" in preset and preset["format"] not in VALID_IMAGE_FORMATS:
-        r.error(
-            "preset-bad-format",
-            f"`format` must be one of {sorted(VALID_IMAGE_FORMATS)}; got {preset['format']!r}.",
-            "parameterPreset.format",
-        )
-    if "background" in preset and preset["background"] not in VALID_BACKGROUNDS:
-        r.error(
-            "preset-bad-background",
-            f"`background` must be one of {sorted(VALID_BACKGROUNDS)}; got {preset['background']!r}.",
-            "parameterPreset.background",
-        )
-    if "n" in preset:
-        n = preset["n"]
-        if not isinstance(n, int) or n < 1 or n > 10:
-            r.error("preset-bad-n", f"`n` must be an integer between 1 and 10; got {n!r}.", "parameterPreset.n")
-    if "size" in preset:
-        size = preset["size"]
-        if isinstance(size, dict):
-            w, h = size.get("width"), size.get("height")
-            if not (isinstance(w, int) and isinstance(h, int)):
-                r.error("preset-bad-size", "`size` must have integer `width` and `height`.", "parameterPreset.size")
-            elif (w, h) != (0, 0):  # (0,0) is the documented "auto" sentinel
-                if w <= 0 or h <= 0:
-                    r.error("preset-bad-size", "`size.width` and `size.height` must be > 0 (or both 0 for auto).", "parameterPreset.size")
+    for key, allowed in [("quality", VALID_QUALITIES), ("complexity", VALID_COMPLEXITIES),
+                         ("format", VALID_OUTPUT_FORMATS), ("background", VALID_BACKGROUNDS)]:
+        value = preset.get(key)
+        if value is not None and (not isinstance(value, str) or value not in allowed):
+            r.error(f"preset-bad-{key}", f"{key} must be one of {sorted(allowed)}; got {value!r}.", f"parameterPreset.{key}")
+
+    fmt = preset.get("format")
+    count = preset.get("n")
+    if count is not None and (type(count) is not int or not 1 <= count <= 10):
+        r.error("preset-bad-n", "n must be an integer between 1 and 10.", "parameterPreset.n")
+    if fmt == "svg" and count is not None and count != 1:
+        r.error("preset-svg-count", "SVG requires one image.", "parameterPreset.n")
+    if fmt in ("jpeg", "svg", "gif") and preset.get("background") == "transparent":
+        r.error("preset-background-format", "Transparent background requires PNG or WebP output.", "parameterPreset.background")
+
+    for key, minimum, maximum in [("frameCount", 2, 16), ("frameDurationMS", 20, 2000)]:
+        value = preset.get(key)
+        if value is None:
+            continue
+        if fmt != "gif":
+            r.error("preset-animation-format", f"{key} requires GIF output.", f"parameterPreset.{key}")
+        if type(value) is not int or not minimum <= value <= maximum:
+            r.error("preset-bad-animation", f"{key} must be an integer between {minimum} and {maximum}.", f"parameterPreset.{key}")
+
+    size = preset.get("size")
+    if size is not None:
+        if not isinstance(size, dict) or any(type(size.get(k)) is not int for k in ("width", "height")):
+            r.error("preset-bad-size", "size must have integer width and height.", "parameterPreset.size")
+        else:
+            w, h = size["width"], size["height"]
+            if (w, h) != (0, 0):
+                if not (0 < w <= 16384 and 0 < h <= 16384):
+                    r.error("preset-bad-size", "Each edge must be 1–16384 pixels, or both 0 for auto.", "parameterPreset.size")
                 if w % 16 or h % 16:
-                    # gpt-image-2 requires 16-aligned dimensions; gpt-image-1
-                    # accepts only fixed presets. Flag as warning rather than
-                    # error since templates are model-aware.
-                    r.warn(
-                        "preset-size-not-aligned",
-                        f"`size` {w}x{h} is not 16-aligned; this is required for gpt-image-2 arbitrary sizes.",
-                        "parameterPreset.size",
-                    )
+                    if fmt == "gif":
+                        r.error("preset-size-not-aligned", "GIF frame dimensions must be multiples of 16.", "parameterPreset.size")
+                    else:
+                        r.warn("preset-size-not-aligned", "Custom image dimensions should be multiples of 16; the client checks the selected model's limits.", "parameterPreset.size")
 
 
 def _placeholders_in(body: str) -> set[str]:

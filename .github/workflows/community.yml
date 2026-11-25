@@ -44,10 +44,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r community/scripts/requirements.txt
 
-      # `--check` is lint-only: validates schema (v2), the embedded
+      # `--check` is lint-only: validates schema (v2–v4), the embedded
       # `community` block (author/license/category/...), scans the
       # prompt body for secrets, and decodes + sanity-checks each
       # embedded cover image.
+      - name: Test template compatibility
+        run: python3 -m unittest discover -s community/scripts/tests
+
       - name: Lint
         run: python3 community/scripts/build_community.py --check
 
