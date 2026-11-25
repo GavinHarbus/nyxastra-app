@@ -18,6 +18,11 @@ Open NyxAstra, create a new template, and design the prompt with
 tags, and (optionally) set a parameter preset (size / quality / format)
 that matches the style.
 
+The pipeline accepts v2, v3 and v4 exports. Raster recipes stay v2; SVG recipes use v3, and GIF recipes or animation timing use v4. Use a client with the corresponding format support. Mac 1.3.1, available on the App Store, supports these features through OpenAI.
+
+Quality supports auto/low/medium/high/xhigh/max. Complexity is optional (low/medium/high). SVG uses one output; GIF can specify 2–16 frames and 20–2000 ms per frame, with Auto size or dimensions aligned to 16 pixels. The client and provider check model-specific limits.
+Use a PNG/JPEG/WebP still as the cover, including for SVG/GIF recipes. The gallery does not host raw SVG or GIF covers.
+
 <p align="center">
   <img src="../assets/screenshots/edittemplate.png" width="720" alt="Editing a template in NyxAstra">
 </p>
@@ -74,7 +79,7 @@ filled in — no missing assets, no follow-up commits.
 
 The **Community templates** workflow will:
 
-1. Validate the schema (v2) and the embedded community block.
+1. Validate the schema (v2–v4), generation settings and embedded community block.
 2. Scan the prompt body for accidentally-pasted secrets.
 3. Decode and sanity-check the embedded cover image.
 4. Build a preview of the gallery covers and attach them as a workflow

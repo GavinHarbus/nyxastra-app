@@ -45,6 +45,7 @@ from lib.schema import (
     TEMPLATE_SCHEMA,
     TEMPLATE_SCHEMA_MAX_VERSION,
     ValidationResult,
+    required_template_version,
     validate_nyxtemplate,
 )
 from lib.utils import (
@@ -279,7 +280,9 @@ def build_dist(parsed: list[dict]) -> None:
         # copy in dist/.
         stamped = dict(doc)
         stamped["schema"]    = TEMPLATE_SCHEMA
-        stamped["version"]   = TEMPLATE_SCHEMA_MAX_VERSION
+        # The pipeline's maximum is not the minimum reader version of every
+        # recipe. Keep legacy downloads compatible and never downgrade sources.
+        stamped["version"]   = max(doc["version"], required_template_version(doc.get("parameterPreset")))
         stamped["sourceApp"] = SOURCE_APP_STAMP
 
         out_single = DIST_TEMPLATES / f"{slug}{NYXTEMPLATE_EXT}"
@@ -316,6 +319,7 @@ def build_dist(parsed: list[dict]) -> None:
             "promptBody": doc.get("body"),
             "variables": doc.get("variables", []),
             "parameterPreset": doc.get("parameterPreset"),
+            "templateSchemaVersion": stamped["version"],
             "downloadUrl": f"{base}/{download_rel}" if base else download_rel,
             "downloadSize": out_single.stat().st_size,
             "coverUrl": cover_url,

@@ -65,15 +65,26 @@ Most AI image tools lock you into a web app, charge monthly fees, and route ever
 
 ### Generate up to 4K images
 
-Full parameter control — quality, size, format, transparent backgrounds, and moderation. Model support depends on the release channel:
+Control quality, size, format, background and moderation where the selected model supports them. **Mac 1.3.1 (build 17) is available on the App Store.** Model support depends on the platform and release:
 
 | Release | Supported models |
 |---|---|
-| **Apple app v1.1+** (Mac, iPhone, iPad) | `gpt-image-2.5-sunburst`, `gpt-image-2.5-flare`, `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
+| **Mac 1.3.1** | OpenAI: `gpt-image-2.6-flare`, `gpt-image-2.6-sunburst`, plus earlier models. Azure retains the earlier model choices. |
+| **Mac / iPhone / iPad v1.1 baseline** | `gpt-image-2.5-sunburst`, `gpt-image-2.5-flare`, `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
 | **Existing direct-download DMG** | `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
 | **Windows** | `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini` |
 
-[GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation#size-and-quality-options) adds `xhigh` and `max` quality settings in Apple app v1.1. The existing GitHub DMG is intentionally unchanged and does not include GPT Image 2.5 support.
+Mac 1.3.1 adds GPT Image 2.6 through **OpenAI**, including six quality levels and up to 16 static reference images. The Mac update does not announce a new iPhone/iPad, direct DMG or Windows release. The existing GitHub DMG does not include GPT Image 2.5 or 2.6.
+
+### New in Mac 1.3.1
+
+- **SVG graphics:** generate one vector image at a time, preview it and export the original SVG. SVG output uses text prompts without reference images.
+- **GIF animations:** generate from text or static reference images. Choose 2–16 frames and 20–2000 ms per frame; frame size defaults to Auto. GIF access depends on your OpenAI account's preview permission.
+- **Complexity:** choose Low, Medium or High planning effort independently of rendering quality.
+- **Clearer controls:** format, size, quality and Complexity are directly accessible; narrower windows wrap the options. GIF controls appear when needed.
+- **Template compatibility:** downloaded Discover example presets retain their quality, Complexity and animation settings.
+
+See the [1.3.1 release notes](RELEASE_NOTES.md).
 
 <p align="center">
   <img src="assets/screenshots/generate.png" width="600" alt="Generation interface">
@@ -85,7 +96,7 @@ Drag & drop reference images to guide the AI. Perfect for style transfer, variat
 
 ### Organize everything in the Library
 
-Tag, rate, search, filter, batch export. Every image keeps its full generation metadata embedded in the file — prompt, parameters, token usage, model, and timestamp.
+Tag, rate, search, filter and batch export. Generation history keeps the prompt, parameters, token usage and model. PNG/JPEG exports can embed metadata; SVG/GIF originals preserve their content, with request details retained in local history and adjacent request files.
 
 <p align="center">
   <img src="assets/screenshots/library.png" width="600" alt="Library view">
@@ -106,6 +117,8 @@ Don't start from a blank prompt. NyxAstra ships with **12 curated templates** co
 **Browse Community Templates → [gavinschneestudio.org/nyxastra/templates](https://gavinschneestudio.org/nyxastra/templates/)**
 
 Community Templates is the public website for free sharing and contributions, including the official starter pack and community submissions. Each template credits its author and carries its own license. Download a `.nyxtemplate` file from its detail page. On Mac, iPhone, or iPad, open the file with NyxAstra to import it. On Windows, import it from the Templates workspace with the import button.
+
+SVG and GIF recipes need a client that supports their template version and output format. Existing v2 downloads keep their version; SVG recipes use v3 and GIF recipes use v4. Covers remain static PNG/JPEG/WebP previews.
 
 **Discover** is the separate curated catalog inside NyxAstra for Mac, for official releases and approved creators. It includes free and paid templates, with purchases and recovery in the Mac App Store edition. Open it from the Discover sidebar entry. The globe button in **Templates** opens Community Templates on the web; Templates remains your personal workspace for using, editing and organizing files from either source. Image-generation fees are separate from template downloads or purchases.
 
@@ -142,7 +155,7 @@ Community contributions are free to download and do not require approved-creator
 | **Telemetry** | None. No analytics, no crash reporting, no phone-home. |
 | **Backend** | The Mac app uses a NyxAstra backend for accounts, curated template delivery and purchase verification. Image generation remains with your chosen provider. |
 
-Read the full [Privacy Policy](PRIVACY.md).
+Read the current [NyxAstra Privacy Policy](https://gavinschneestudio.org/nyxastra/privacy.html).
 
 ---
 
@@ -150,7 +163,7 @@ Read the full [Privacy Policy](PRIVACY.md).
 
 ### macOS
 
-NyxAstra is available from the [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) in supported regions. The existing direct DMG remains available for other regions, including mainland China; it is an earlier preview and does not include GPT Image 2.5 support.
+NyxAstra is available from the [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) in supported regions. The existing direct DMG remains available for other regions, including mainland China; it is an earlier preview and does not include GPT Image 2.5 or 2.6.
 
 1. **Download** the earlier preview `.dmg` from [macOS Releases](https://github.com/GavinHarbus/nyxastra-app/releases)
 2. **Drag** NyxAstra to your Applications folder
@@ -188,9 +201,9 @@ Special thanks to [@bbkgl](https://github.com/bbkgl) for building the WPF/.NET W
 - [App Store](https://apps.apple.com/us/app/nyxastra/id6804567608?mt=12) — Mac, iPhone, and iPad in supported regions
 - [Community contributing guide](community/CONTRIBUTING.md) — submit your own templates
 - [Windows Releases](https://github.com/bbkgl/NyxAstraApp-Win/releases) — download the Windows build
-- [Changelog](CHANGELOG.md) — what's new in each version
+- [Release notes](RELEASE_NOTES.md) — Mac 1.3.1 features and platform availability
 - [FAQ](FAQ.md) — common questions answered
-- [Privacy Policy](PRIVACY.md) — the full details
+- [Privacy Policy](https://gavinschneestudio.org/nyxastra/privacy.html) — the current full details
 - [Product Page](https://gavinschneestudio.org/products/nyxastra.html)
 
 ## Feedback & Support
